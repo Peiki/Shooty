@@ -25,6 +25,6 @@ public class SceneController:MonoBehaviour{
 			positionX=2f;
 		else
 			positionX=4f;
-		return new Vector2(positionX,8.5f);
+		return new Vector3(positionX,8.5f,-1);
 	}
 }
