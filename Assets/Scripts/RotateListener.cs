@@ -17,11 +17,3 @@ public class RotateListener:MonoBehaviour{
 			transform.Rotate(Vector3.forward*2*-90*Time.deltaTime);
 	}
 }
-
-/*
-public Quaternion rotation = Quaternion.identity;
-    void Example() {
-        rotation.eulerAngles = new Vector3(0, 30, 0);
-        print(rotation.eulerAngles.y);
-    }
-*/

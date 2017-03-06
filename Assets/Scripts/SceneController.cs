@@ -1,15 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 public class SceneController:MonoBehaviour{
+	int monster_hit=0;
+	int hearts=3;
+	int maxSeconds=5;
 	[SerializeField] GameObject monster;
+	[SerializeField] GameObject fence;
+	[SerializeField] GameObject gameOverPopup;
+	[SerializeField] GameObject monsterKilled;
+	[SerializeField] GameObject[] heartObject;
+	[SerializeField] Sprite emptyHeart;
 	void Start(){
 		StartCoroutine(RandomSpawn());
+		for(int i=1;i<7;i++)
+			Instantiate(fence,new Vector2(-5.04f+(1.7f*i),-5),Quaternion.identity).tag="Fence";
 	}
 	private IEnumerator RandomSpawn(){
-		for(int n_monsters=0;n_monsters<10;n_monsters++){
+		while(true){
+			yield return new WaitForSeconds(Random.Range(1,maxSeconds));
 			Instantiate(monster,randomPosition(),Quaternion.identity);
-			yield return new WaitForSeconds(Random.Range(1,5));
+			if(monster_hit%10==0 && maxSeconds!=1)
+				maxSeconds--;
 		}
 	}
 	Vector2 randomPosition(){
@@ -26,5 +39,17 @@ public class SceneController:MonoBehaviour{
 		else
 			positionX=4f;
 		return new Vector3(positionX,8.5f,-1);
+	}
+	public void monsterHit(){
+		monster_hit++;
+		monsterKilled.GetComponent<Text>().text="= "+monster_hit;
+	}
+	public void removeHeart(){
+		heartObject[hearts-1].GetComponent<Image>().sprite=emptyHeart;
+		hearts--;
+		if(hearts==0){
+			Time.timeScale=0;
+			gameOverPopup.SetActive(true);
+		}
 	}
 }
