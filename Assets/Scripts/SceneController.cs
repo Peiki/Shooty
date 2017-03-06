@@ -14,7 +14,7 @@ public class SceneController:MonoBehaviour{
 	[SerializeField] Sprite emptyHeart;
 	void Start(){
 		StartCoroutine(RandomSpawn());
-		for(int i=1;i<7;i++)
+		for(int i=0;i<7;i++)
 			Instantiate(fence,new Vector2(-5.04f+(1.7f*i),-5),Quaternion.identity).tag="Fence";
 	}
 	private IEnumerator RandomSpawn(){
@@ -46,10 +46,17 @@ public class SceneController:MonoBehaviour{
 	}
 	public void removeHeart(){
 		heartObject[hearts-1].GetComponent<Image>().sprite=emptyHeart;
+		StartCoroutine(Flash(heartObject[hearts-1]));
 		hearts--;
 		if(hearts==0){
 			Time.timeScale=0;
 			gameOverPopup.SetActive(true);
+		}
+	}
+	private IEnumerator Flash(GameObject heartObject){
+		for(int i=0;i<10;i++){
+			yield return new WaitForSeconds(0.1f);
+			heartObject.SetActive(!heartObject.active);
 		}
 	}
 }

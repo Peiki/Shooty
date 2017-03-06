@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 public class BulletScript:MonoBehaviour{
-	public float bulletSpeed=3f;
+	public float bulletSpeed;
+	public float damage;
 	Vector2 direction;
 	void Update(){
 		transform.Translate(direction*Time.deltaTime*bulletSpeed,Space.World);
@@ -11,7 +12,7 @@ public class BulletScript:MonoBehaviour{
 		this.direction=direction;
 	}
 	void OnTriggerEnter2D(Collider2D collider){
-		collider.GetComponent<MonsterBehaviour>().die();
+		collider.GetComponent<MonsterBehaviour>().getHit((int)damage);
 		Destroy(this);
 		Destroy(gameObject);
 	}
