@@ -15,7 +15,7 @@ public class RayBehaviour:MonoBehaviour{
 	}
 	void Update(){
 		transform.rotation=weapon.transform.rotation;
-		if(gameObject.active && !running)
+		if(gameObject.activeSelf && !running)
 			StartCoroutine(RayAnimation());
 	}
 	void OnTriggerEnter2D(Collider2D collider){
@@ -24,12 +24,15 @@ public class RayBehaviour:MonoBehaviour{
 	}
 	private IEnumerator RayAnimation(){
 		running=true;
-		while(gameObject.active){
-			for(int i=0;i<5;i++){
+		while(gameObject.activeSelf)
+			for(int i=0;i<5;i++){	
 				GetComponent<SpriteRenderer>().sprite=rayImage[i];
 				yield return new WaitForSeconds(0.1f);
 			}
-		}
 		running=false;
+	}
+	public void setActive(bool value){
+		transform.rotation=weapon.transform.rotation;
+		gameObject.SetActive(value);
 	}
 }

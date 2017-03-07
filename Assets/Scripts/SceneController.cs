@@ -53,15 +53,17 @@ public class SceneController:MonoBehaviour{
 		if(hearts==0){
 			Time.timeScale=0;
 			gameOverPopup.SetActive(true);
+			/*if(monster_hit>PlayerPrefs.GetInt("highscore"))
+         		PlayerPrefs.SetInt("highscore",monster_hit);*/
 		}
 	}
 	private IEnumerator Flash(GameObject heartObject){
 		for(int i=0;i<10;i++){
 			yield return new WaitForSeconds(0.1f);
-			heartObject.SetActive(!heartObject.active);
+			heartObject.SetActive(!heartObject.activeSelf);
 		}
 	}
 	public void activateSpecial(){
-		ray.SetActive(true);
+		ray.GetComponent<RayBehaviour>().setActive(true);
 	}
 }

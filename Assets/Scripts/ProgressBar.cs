@@ -9,7 +9,7 @@ public class ProgressBar:MonoBehaviour{
     [SerializeField] GameObject shootButton;
 	bool canCharge=true;
     void Start(){
-        GetComponent<Image>().fillAmount=0.9f;
+        GetComponent<Image>().fillAmount=0;
     }
     public void fillAmount(float amount){
         if(GetComponent<Image>().fillAmount!=1 && canCharge)
@@ -28,7 +28,7 @@ public class ProgressBar:MonoBehaviour{
     	}
         shootButton.GetComponent<SB_Listener>().setInteractable(true);
     	canCharge=true;
-        ray.SetActive(false);
+        ray.GetComponent<RayBehaviour>().setActive(false);
     }
     private IEnumerator Load(){
     	float startValue=GetComponent<Image>().fillAmount;
