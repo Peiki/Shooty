@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 public class SB_Listener:MonoBehaviour{
 	[SerializeField] GameObject weapon;
 	[SerializeField] GameObject bullet;
@@ -24,5 +25,8 @@ public class SB_Listener:MonoBehaviour{
 	private IEnumerator WaitTime(){
 		yield return new WaitForSeconds(fireRate);
 		shootEnabled=true;
+	}
+	public void setInteractable(bool value){
+		GetComponent<Button>().interactable=value;
 	}
 }

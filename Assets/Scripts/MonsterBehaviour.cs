@@ -6,6 +6,9 @@ public class MonsterBehaviour:MonoBehaviour{
 	[SerializeField] GameObject pbForeground;
 	public float speed;
 	public float life;
+	void Start(){
+		tag="Monster";
+	}
 	void Update(){
 		transform.Translate(Vector3.down*speed*Time.deltaTime);
 	}

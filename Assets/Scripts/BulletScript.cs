@@ -12,9 +12,11 @@ public class BulletScript:MonoBehaviour{
 		this.direction=direction;
 	}
 	void OnTriggerEnter2D(Collider2D collider){
-		collider.GetComponent<MonsterBehaviour>().getHit((int)damage);
-		Destroy(this);
-		Destroy(gameObject);
+		if(collider.gameObject.tag=="Monster"){
+			collider.GetComponent<MonsterBehaviour>().getHit((int)damage);
+			Destroy(this);
+			Destroy(gameObject);
+		}
 	}
 	public void OnBecameInvisible(){
 	 	Destroy(this);

@@ -8,6 +8,7 @@ public class SceneController:MonoBehaviour{
 	int maxSeconds=5;
 	[SerializeField] GameObject monster;
 	[SerializeField] GameObject fence;
+	[SerializeField] GameObject ray;
 	[SerializeField] GameObject gameOverPopup;
 	[SerializeField] GameObject monsterKilled;
 	[SerializeField] GameObject[] heartObject;
@@ -21,9 +22,10 @@ public class SceneController:MonoBehaviour{
 		while(true){
 			yield return new WaitForSeconds(Random.Range(1,maxSeconds));
 			Instantiate(monster,randomPosition(),Quaternion.identity);
-			if(monster_hit%10==0 && maxSeconds!=1)
+			if(monster_hit%10==0 && maxSeconds!=1 && monster_hit!=0)
 				maxSeconds--;
 		}
+		yield return new WaitForSeconds(Random.Range(1,maxSeconds));
 	}
 	Vector2 randomPosition(){
 		int number=Random.Range(1,5);
@@ -58,5 +60,8 @@ public class SceneController:MonoBehaviour{
 			yield return new WaitForSeconds(0.1f);
 			heartObject.SetActive(!heartObject.active);
 		}
+	}
+	public void activateSpecial(){
+		ray.SetActive(true);
 	}
 }
