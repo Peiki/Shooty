@@ -52,12 +52,15 @@ public class SceneController:MonoBehaviour{
 		hearts--;
 		if(hearts==0){
 			Time.timeScale=0;
+			if(monster_hit>PlayerPrefs.GetInt("highscore")){
+				PlayerPrefs.SetInt("highscore",monster_hit);
+				gameOverPopup.transform.GetChild(0).GetComponent<Text>().text="NEW HIGHSCORE!";
+			}
+         		
 			gameOverPopup.SetActive(true);
-			/*if(monster_hit>PlayerPrefs.GetInt("highscore"))
-         		PlayerPrefs.SetInt("highscore",monster_hit);*/
 		}
 	}
-	private IEnumerator Flash(GameObject heartObject){
+	public IEnumerator Flash(GameObject heartObject){
 		for(int i=0;i<10;i++){
 			yield return new WaitForSeconds(0.1f);
 			heartObject.SetActive(!heartObject.activeSelf);

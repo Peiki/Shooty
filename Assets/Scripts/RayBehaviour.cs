@@ -17,19 +17,19 @@ public class RayBehaviour:MonoBehaviour{
 		transform.rotation=weapon.transform.rotation;
 		if(gameObject.activeSelf && !running)
 			StartCoroutine(RayAnimation());
+		else if(running==true)
+			running=false;
 	}
 	void OnTriggerEnter2D(Collider2D collider){
 		if(collider.gameObject.tag=="Monster")
 			collider.GetComponent<MonsterBehaviour>().getHit((int)damage);
 	}
 	private IEnumerator RayAnimation(){
-		running=true;
 		while(gameObject.activeSelf)
 			for(int i=0;i<5;i++){	
 				GetComponent<SpriteRenderer>().sprite=rayImage[i];
 				yield return new WaitForSeconds(0.1f);
 			}
-		running=false;
 	}
 	public void setActive(bool value){
 		transform.rotation=weapon.transform.rotation;

@@ -9,7 +9,7 @@ public class ProgressBar:MonoBehaviour{
     [SerializeField] GameObject shootButton;
 	bool canCharge=true;
     void Start(){
-        GetComponent<Image>().fillAmount=0;
+        GetComponent<Image>().fillAmount=0f;
     }
     public void fillAmount(float amount){
         if(GetComponent<Image>().fillAmount!=1 && canCharge)
