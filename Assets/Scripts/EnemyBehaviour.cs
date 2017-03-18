@@ -26,6 +26,10 @@ public class EnemyBehaviour:MonoBehaviour{
         	if(!GetComponent<MonsterBehaviour>().getDead())
         		StartCoroutine(Attack());
         }
+        else if(collider.gameObject.tag=="Shield"){
+        	GetComponent<MonsterBehaviour>().getHit(100);
+        	die();
+        }
     }
     public IEnumerator Attack(){
 		Destroy(GetComponent<BoxCollider2D>());

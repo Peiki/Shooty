@@ -16,6 +16,8 @@ public class TimerBehaviour:MonoBehaviour{
 	}
 	public IEnumerator Timer(){
 		int i=15;
+		if(position==4 || position==5)
+			i=10;
 		while(i!=0){
 			transform.GetChild(1).GetComponent<Text>().text="= "+i;
 			yield return new WaitForSeconds(1);
