@@ -24,5 +24,7 @@ public class BulletScript:MonoBehaviour{
 	 	Destroy(this);
 	 	Destroy(gameObject);
  	}
- 	
+ 	public void setDamage(int damage){
+ 		this.damage=damage;
+ 	}
 }

@@ -29,4 +29,7 @@ public class SB_Listener:MonoBehaviour{
 	public void setInteractable(bool value){
 		GetComponent<Button>().interactable=value;
 	}
+	public void setFireRate(float fireRate){
+		this.fireRate=fireRate;
+	}
 }

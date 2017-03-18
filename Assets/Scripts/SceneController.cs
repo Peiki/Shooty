@@ -5,14 +5,19 @@ using UnityEngine.UI;
 public class SceneController:MonoBehaviour{
 	int monster_hit=0;
 	int hearts=3;
-	int maxSeconds=5;
+	int maxSeconds=6;
+	int range=6;
 	[SerializeField] GameObject monster;
+	[SerializeField] GameObject box;
 	[SerializeField] GameObject fence;
 	[SerializeField] GameObject ray;
 	[SerializeField] GameObject gameOverPopup;
 	[SerializeField] GameObject monsterKilled;
+	[SerializeField] GameObject shoot;
+	[SerializeField] GameObject bullet;
 	[SerializeField] GameObject[] heartObject;
 	[SerializeField] Sprite emptyHeart;
+	[SerializeField] Sprite fullHeart;
 	void Start(){
 		StartCoroutine(RandomSpawn());
 		for(int i=0;i<7;i++)
@@ -21,14 +26,21 @@ public class SceneController:MonoBehaviour{
 	private IEnumerator RandomSpawn(){
 		while(true){
 			yield return new WaitForSeconds(Random.Range(1,maxSeconds));
-			Instantiate(monster,randomPosition(),Quaternion.identity);
+			RandomInstantiate();
 			if(monster_hit%10==0 && maxSeconds!=1 && monster_hit!=0)
 				maxSeconds--;
 		}
 		yield return new WaitForSeconds(Random.Range(1,maxSeconds));
 	}
+	void RandomInstantiate(){
+		int randomValue=Random.Range(1,range);
+		if(randomValue==5)
+			Instantiate(box,randomPosition(),Quaternion.identity);
+		else
+			Instantiate(monster,randomPosition(),Quaternion.identity);
+	}
 	Vector2 randomPosition(){
-		int number=Random.Range(1,5);
+		int number=Random.Range(1,6);
 		float positionX;
 		if(number==1)
 			positionX=-4f;
@@ -54,10 +66,17 @@ public class SceneController:MonoBehaviour{
 			Time.timeScale=0;
 			if(monster_hit>PlayerPrefs.GetInt("highscore")){
 				PlayerPrefs.SetInt("highscore",monster_hit);
-				gameOverPopup.transform.GetChild(0).GetComponent<Text>().text="NEW HIGHSCORE!";
+				gameOverPopup.transform.GetChild(0).GetComponent<Text>().text="NEW HIGHSCORE!\n";
 			}
          		
 			gameOverPopup.SetActive(true);
+		}
+	}
+	public void addHeart(){
+		if(hearts<3){
+			heartObject[hearts].GetComponent<Image>().sprite=fullHeart;
+			StartCoroutine(Flash(heartObject[hearts]));
+			hearts++;
 		}
 	}
 	public IEnumerator Flash(GameObject heartObject){
@@ -68,5 +87,18 @@ public class SceneController:MonoBehaviour{
 	}
 	public void activateSpecial(){
 		ray.GetComponent<RayBehaviour>().setActive(true);
+	}
+	public void startTimer(int time,int position){
+		StartCoroutine(Timer(time,position));
+	}
+	public IEnumerator Timer(int time,int position){
+		range=5;
+		yield return new WaitForSeconds(time);
+		if(position==2)
+			shoot.GetComponent<SB_Listener>().setFireRate(0.2f);
+		else if(position==3)
+			bullet.GetComponent<BulletScript>().setDamage(1);
+		yield return new WaitForSeconds(time);
+		range=6;
 	}
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 public class FireBehaviour:MonoBehaviour{
 	[SerializeField] Sprite[] fireImage;
-	private GameObject monster;
 	void Update(){
 		if(gameObject.activeSelf)
 			StartCoroutine(FireAnimation());
@@ -11,12 +10,11 @@ public class FireBehaviour:MonoBehaviour{
 	private IEnumerator FireAnimation(){
 		for(int i=0;i<25;i++){
 			GetComponent<SpriteRenderer>().sprite=fireImage[i];
-			yield return new WaitForSeconds(0.1f);
+			yield return new WaitForSeconds(0.02f);
 		}
 	}
-	public void Activate(bool value,GameObject monster){
+	public void Activate(bool value){
 		gameObject.SetActive(value);
-		this.monster=monster;
 		StartCoroutine(Wait());
 	}
 	private IEnumerator Wait(){
