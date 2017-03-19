@@ -6,6 +6,7 @@ public class EnemyBehaviour:MonoBehaviour{
 	[SerializeField] GameObject pbForeground;
 	[SerializeField] GameObject fire;
 	bool setDead=false;
+	public bool attack;
 	public void Update(){
 		if(GetComponent<MonsterBehaviour>().getDead() && !setDead)
 			die();
@@ -22,7 +23,8 @@ public class EnemyBehaviour:MonoBehaviour{
         	Vector3 monsterPosition=transform.position;
         	monsterPosition.y=monsterPosition.y-1;
         	monsterPosition.z=-1;
-        	Instantiate(fire,monsterPosition,Quaternion.Euler(monsterRotation)).GetComponent<FireBehaviour>().Activate(true);
+        	if(attack)
+        		Instantiate(fire,monsterPosition,Quaternion.Euler(monsterRotation)).GetComponent<FireBehaviour>().Activate(true);
         	if(!GetComponent<MonsterBehaviour>().getDead())
         		StartCoroutine(Attack());
         }

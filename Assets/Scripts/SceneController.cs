@@ -6,8 +6,12 @@ public class SceneController:MonoBehaviour{
 	int monster_hit=0;
 	int hearts=3;
 	int maxSeconds=6;
-	int range=6;
+	int range=21;
 	[SerializeField] GameObject monster;
+	[SerializeField] GameObject heavyMonster;
+	[SerializeField] GameObject fastMonster;
+	[SerializeField] GameObject hiddenMonster;
+	[SerializeField] GameObject diagonalMonster;
 	[SerializeField] GameObject box;
 	[SerializeField] GameObject fence;
 	[SerializeField] GameObject ray;
@@ -34,8 +38,16 @@ public class SceneController:MonoBehaviour{
 	}
 	void RandomInstantiate(){
 		int randomValue=Random.Range(1,range);
-		if(randomValue==5)
+		if(randomValue==20)
 			Instantiate(box,randomPosition(),Quaternion.identity);
+		else if(randomValue>15 && randomValue<20)
+			Instantiate(diagonalMonster,randomPosition(),Quaternion.identity);
+		else if(randomValue>13 && randomValue<16)
+			Instantiate(hiddenMonster,randomPosition(),Quaternion.identity);
+		else if(randomValue>10 && randomValue<14)
+			Instantiate(fastMonster,randomPosition(),Quaternion.identity);
+		else if(randomValue==10)
+			Instantiate(heavyMonster,randomPosition(),Quaternion.identity);
 		else
 			Instantiate(monster,randomPosition(),Quaternion.identity);
 	}
@@ -92,13 +104,13 @@ public class SceneController:MonoBehaviour{
 		StartCoroutine(Timer(time,position));
 	}
 	public IEnumerator Timer(int time,int position){
-		range=5;
+		range=20;
 		yield return new WaitForSeconds(time);
 		if(position==2)
 			shoot.GetComponent<SB_Listener>().setFireRate(0.2f);
 		else if(position==3)
 			bullet.GetComponent<BulletScript>().setDamage(1);
 		yield return new WaitForSeconds(time);
-		range=6;
+		range=21;
 	}
 }

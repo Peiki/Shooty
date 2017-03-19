@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 public class MonsterBehaviour:MonoBehaviour{
+	[SerializeField] GameObject coin;
 	public float speed;
 	public float life;
+	public int chance;
 	bool dead=false;
 	void Start(){
 		tag="Monster";
@@ -26,10 +28,17 @@ public class MonsterBehaviour:MonoBehaviour{
 		if(life<=0){
 			GetComponent<SpriteRenderer>().color=Color.black;
 			yield return new WaitForSeconds(0.1f);
+			if(Random.Range(1,chance+1)==1 && chance!=0){
+				Instantiate(coin,this.transform.position,Quaternion.identity).GetComponent<CoinScript>().Activate();
+				PlayerPrefs.SetInt("coins",PlayerPrefs.GetInt("coins")+1);
+			}
 			Destroy(gameObject);
 		}
 		else
 			GetComponent<SpriteRenderer>().color=Color.white;
+	}
+	public float getSpeed(){
+		return speed;
 	}
 	public bool getDead(){
 		return dead;
