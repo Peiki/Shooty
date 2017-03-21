@@ -7,7 +7,6 @@ public class MenuListener:MonoBehaviour{
 	[SerializeField] GameObject popupName;
 	[SerializeField] GameObject coinsNumber;
 	[SerializeField] GameObject nameField;
-	
 	public void StartGame(){
 		SceneManager.LoadScene("Game",LoadSceneMode.Single);
 	}
@@ -17,6 +16,9 @@ public class MenuListener:MonoBehaviour{
 	public void GoToMenu(){
 		SceneManager.LoadScene("Menu",LoadSceneMode.Single);
 	}
+	public void GoToLeaderboards(){
+		SceneManager.LoadScene("Leaderboards",LoadSceneMode.Single);
+	}
 	public void ResetStats(){
 		PlayerPrefs.DeleteAll();
 	}
@@ -24,7 +26,8 @@ public class MenuListener:MonoBehaviour{
 		PlayerPrefs.SetInt("coins",PlayerPrefs.GetInt("coins")+500);
 	}
 	public void ClosePopup(){
-		popupName.SetActive(false);
+		if(nameField.GetComponent<Text>().text!="")
+			popupName.SetActive(false);
 	}
 	public void Update(){
 		coinsNumber.GetComponent<Text>().text="= "+PlayerPrefs.GetInt("coins");
