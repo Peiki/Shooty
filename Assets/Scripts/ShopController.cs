@@ -8,6 +8,7 @@ public class ShopController:MonoBehaviour{
 	[SerializeField] Button[] buyButtons;
 	[SerializeField] GameObject[] popups;
 	[SerializeField] GameObject coinsNumber;
+	[SerializeField] GameObject noMoneyPopup;
 	void Start(){
 		changePosition(0);
 		setUpButtons();
@@ -30,14 +31,10 @@ public class ShopController:MonoBehaviour{
 	public int getPosition(){
 		return position;
 	}
-	public void buy(Button button){
-		if(int.Parse(button.transform.GetChild(0).GetComponent<Text>().text)<=PlayerPrefs.GetInt("coins")){
-			PlayerPrefs.SetInt("coins",PlayerPrefs.GetInt("coins")-int.Parse(button.transform.GetChild(0).GetComponent<Text>().text));
-			coinsNumber.GetComponent<CoinAnimation>().subtractCoins(int.Parse(button.transform.GetChild(0).GetComponent<Text>().text));
-			Update();
-		}
-		else
-			Debug.Log("NOT ENOUGH MONEY!");
+	void buy(Button button){
+		PlayerPrefs.SetInt("coins",PlayerPrefs.GetInt("coins")-int.Parse(button.transform.GetChild(0).GetComponent<Text>().text));
+		coinsNumber.GetComponent<CoinAnimation>().subtractCoins(int.Parse(button.transform.GetChild(0).GetComponent<Text>().text));
+		Update();
 	}
 	public void Update(){
 		coinsNumber.GetComponent<Text>().text="= "+PlayerPrefs.GetInt("coins");
@@ -50,8 +47,6 @@ public class ShopController:MonoBehaviour{
 				type="skill";
 				j=1;
 			}
-			Debug.Log(type+j);
-			Debug.Log(PlayerPrefs.GetInt(type+j));
 			if(PlayerPrefs.GetInt(type+j)==2){
 				buyButtons[i].interactable=false;
 				buyButtons[i].transform.GetChild(0).GetComponent<Text>().text="EQUIPPED";
@@ -60,13 +55,50 @@ public class ShopController:MonoBehaviour{
 			else if(PlayerPrefs.GetInt(type+j)==1){
 				buyButtons[i].interactable=true;
 				buyButtons[i].transform.GetChild(0).GetComponent<Text>().text="OWNED";
+				buyButtons[i].transform.GetChild(1).gameObject.SetActive(false);
 			}
 			else{
 				buyButtons[i].interactable=true;
-				buyButtons[i].transform.GetChild(0).GetComponent<Text>().text=PlayerPrefs.GetInt(type+j+"Price").ToString();
+				buyButtons[i].transform.GetChild(0).GetComponent<Text>().text=PlayerPrefs.GetInt(type+j+"Price").ToString()+"    ";
 				buyButtons[i].transform.GetChild(1).gameObject.SetActive(true);
 			}
 			j++;
 		}
+	}
+	public void buyObject(int i){
+		if(buyButtons[i-1].transform.GetChild(0).GetComponent<Text>().text=="OWNED"){
+			string type="weapon";
+			if(position==1){
+				type="skill";
+				i=i-3;
+			}
+			unEquip(type);
+			PlayerPrefs.SetInt(type+i,2);
+			setUpButtons();
+		}
+		else{
+			string type="weapon";
+			if(int.Parse(buyButtons[i-1].transform.GetChild(0).GetComponent<Text>().text)<=PlayerPrefs.GetInt("coins")){
+				if(position==1){
+					type="skill";
+					i=i-3;
+				}
+				if(position==1)
+					buy(buyButtons[i+3-1]);
+				else
+					buy(buyButtons[i-1]);
+				unEquip(type);
+				PlayerPrefs.SetInt(type+i,2);
+				setUpButtons();
+			}
+			else
+				noMoneyPopup.GetComponent<PopupScript>().Activate();
+		}
+		
+	}
+	void unEquip(string type){
+		for(int j=1;j<=3;j++)
+			if(PlayerPrefs.GetInt(type+j)==2)
+				PlayerPrefs.SetInt(type+j,1);
 	}
 }
