@@ -5,10 +5,12 @@ using UnityEngine.UI;
 public class ShopController:MonoBehaviour{
 	int position;
 	[SerializeField] Button[] buttons;
+	[SerializeField] Button[] buyButtons;
 	[SerializeField] GameObject[] popups;
 	[SerializeField] GameObject coinsNumber;
 	void Start(){
 		changePosition(0);
+		setUpButtons();
 	}
 	public void changePosition(int position){
 		this.position=position;
@@ -31,6 +33,7 @@ public class ShopController:MonoBehaviour{
 	public void buy(Button button){
 		if(int.Parse(button.transform.GetChild(0).GetComponent<Text>().text)<=PlayerPrefs.GetInt("coins")){
 			PlayerPrefs.SetInt("coins",PlayerPrefs.GetInt("coins")-int.Parse(button.transform.GetChild(0).GetComponent<Text>().text));
+			coinsNumber.GetComponent<CoinAnimation>().subtractCoins(int.Parse(button.transform.GetChild(0).GetComponent<Text>().text));
 			Update();
 		}
 		else
@@ -38,5 +41,32 @@ public class ShopController:MonoBehaviour{
 	}
 	public void Update(){
 		coinsNumber.GetComponent<Text>().text="= "+PlayerPrefs.GetInt("coins");
+	}
+	public void setUpButtons(){
+		string type="weapon";
+		int j=1;
+		for(int i=0;i<buyButtons.Length;i++){
+			if(j==4){
+				type="skill";
+				j=1;
+			}
+			Debug.Log(type+j);
+			Debug.Log(PlayerPrefs.GetInt(type+j));
+			if(PlayerPrefs.GetInt(type+j)==2){
+				buyButtons[i].interactable=false;
+				buyButtons[i].transform.GetChild(0).GetComponent<Text>().text="EQUIPPED";
+				buyButtons[i].transform.GetChild(1).gameObject.SetActive(false);
+			}
+			else if(PlayerPrefs.GetInt(type+j)==1){
+				buyButtons[i].interactable=true;
+				buyButtons[i].transform.GetChild(0).GetComponent<Text>().text="OWNED";
+			}
+			else{
+				buyButtons[i].interactable=true;
+				buyButtons[i].transform.GetChild(0).GetComponent<Text>().text=PlayerPrefs.GetInt(type+j+"Price").ToString();
+				buyButtons[i].transform.GetChild(1).gameObject.SetActive(true);
+			}
+			j++;
+		}
 	}
 }

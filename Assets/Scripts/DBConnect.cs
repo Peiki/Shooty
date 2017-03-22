@@ -17,10 +17,8 @@ public class DBConnect:MonoBehaviour{
     }
     IEnumerator PostScores(string url,string name, int score){
         string post_url=LINK+url+"name="+WWW.EscapeURL(name)+"&score="+score+"&secretKey="+WWW.EscapeURL(secretKey);
-        Debug.Log(post_url);
         WWW hs_post=new WWW(post_url);
         yield return hs_post;
-        Debug.Log(hs_post.text);
         if(hs_post.error!=null)
             Debug.Log("There was an error posting the high score: "+hs_post.error); //error message here
         else if(int.Parse(hs_post.text)==0){
@@ -30,7 +28,6 @@ public class DBConnect:MonoBehaviour{
         }
         else if(int.Parse(hs_post.text)==1)
             message.GetComponent<Text>().text="Username già utilizzato!";
-        Debug.Log("HERE");
     }
     public void startPostScores(string url){
         if(value && nameField.GetComponent<Text>().text!="")

@@ -78,10 +78,9 @@ public class SceneController:MonoBehaviour{
 			Time.timeScale=0;
 			if(monster_hit>PlayerPrefs.GetInt("highscore")){
 				PlayerPrefs.SetInt("highscore",monster_hit);
-				gameOverPopup.transform.GetChild(0).GetComponent<Text>().text="NEW HIGHSCORE!\n";
 				GetComponent<DBConnect>().startPostScores("updatescore.php?");
+				gameOverPopup.transform.GetChild(0).GetComponent<Text>().text="NEW HIGHSCORE!\n";
 			}
-         		
 			gameOverPopup.SetActive(true);
 		}
 	}
