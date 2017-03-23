@@ -38,8 +38,10 @@ public class SceneController:MonoBehaviour{
 	}
 	void RandomInstantiate(){
 		int randomValue=Random.Range(1,range);
-		if(randomValue==20)
+		if(randomValue==20){
 			Instantiate(box,randomPosition(),Quaternion.identity);
+			range=range-1;
+		}
 		else if(randomValue>15 && randomValue<20)
 			Instantiate(diagonalMonster,randomPosition(),Quaternion.identity);
 		else if(randomValue>13 && randomValue<16)
@@ -104,13 +106,14 @@ public class SceneController:MonoBehaviour{
 		StartCoroutine(Timer(time,position));
 	}
 	public IEnumerator Timer(int time,int position){
-		range=20;
 		yield return new WaitForSeconds(time);
 		if(position==2)
 			shoot.GetComponent<SB_Listener>().setFireRate(0.2f);
 		else if(position==3)
 			bullet.GetComponent<BulletScript>().setDamage(1);
 		yield return new WaitForSeconds(time);
-		range=21;
+	}
+	public void resetRange(){
+		range=range+1;
 	}
 }

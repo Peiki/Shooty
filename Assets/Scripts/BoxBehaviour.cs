@@ -38,6 +38,7 @@ public class BoxBehaviour:MonoBehaviour{
 		if(powerup!=1)
 			timerOnGui.GetComponent<TimerBehaviour>().setTime(powerup);
 		controller.GetComponent<SceneController>().startTimer(time,powerup);
+		controller.GetComponent<SceneController>().resetRange();
 		Instantiate(powerupSprite,this.transform.position,Quaternion.identity).GetComponent<PowerUpScript>().setSprite(powerup);
 	}
 }

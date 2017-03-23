@@ -4,11 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 public class ShopController:MonoBehaviour{
 	int position;
+	int previousImage;
 	[SerializeField] Button[] buttons;
 	[SerializeField] Button[] buyButtons;
 	[SerializeField] GameObject[] popups;
 	[SerializeField] GameObject coinsNumber;
 	[SerializeField] GameObject noMoneyPopup;
+	[SerializeField] string[] descriptions;
+	[SerializeField] GameObject[] texts;
+	[SerializeField] GameObject[] imageBoxes;
 	void Start(){
 		changePosition(0);
 		setUpButtons();
@@ -100,5 +104,19 @@ public class ShopController:MonoBehaviour{
 		for(int j=1;j<=3;j++)
 			if(PlayerPrefs.GetInt(type+j)==2)
 				PlayerPrefs.SetInt(type+j,1);
+	}
+	public void setDescription(int i){
+		Vector2 descriptionPosition=imageBoxes[position].transform.position;
+		if(position==1)
+			descriptionPosition.y-=100;
+		if(previousImage!=null){
+			Vector2 buttonPosition=buyButtons[previousImage].transform.parent.GetChild(5).transform.position;
+			if(previousImage>=3)
+				buttonPosition.y-=100;
+			buyButtons[previousImage].transform.parent.GetChild(4).transform.position=buttonPosition;
+		}
+		texts[position].GetComponent<Text>().text=descriptions[i];
+		buyButtons[i].transform.parent.GetChild(4).transform.position=descriptionPosition;
+		previousImage=i;
 	}
 }

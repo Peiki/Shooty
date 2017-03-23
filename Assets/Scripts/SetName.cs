@@ -18,6 +18,9 @@ public class SetName:MonoBehaviour{
 			PlayerPrefs.SetInt("weapon3Price", 50);
 			PlayerPrefs.SetInt("skill2Price", 500);
 			PlayerPrefs.SetInt("skill3Price", 50);
+			PlayerPrefs.SetInt("damage",1);
+			PlayerPrefs.SetInt("speed",1);
+			PlayerPrefs.SetInt("health",1);
 		}
 		else
 			popupName.SetActive(false);
