@@ -7,7 +7,7 @@ public class BulletScript:MonoBehaviour{
 	public float damage;
 	Vector2 direction;
 	void Update(){
-		transform.Translate(direction*Time.deltaTime*bulletSpeed,Space.World);
+		transform.Translate(direction*Time.deltaTime*bulletSpeed);
 	}
 	public void setDirection(Vector2 direction){
 		this.direction=direction;

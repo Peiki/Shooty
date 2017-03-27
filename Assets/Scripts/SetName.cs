@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class SetName:MonoBehaviour{
 	[SerializeField] GameObject nameField;
 	[SerializeField] GameObject popupName;
+	[SerializeField] GameObject invisibleImage;
 	void Start(){
 		if(PlayerPrefs.GetString("name")==""){
 			popupName.SetActive(true);
@@ -22,11 +23,13 @@ public class SetName:MonoBehaviour{
 			PlayerPrefs.SetInt("speed",1);
 			PlayerPrefs.SetInt("health",1);
 		}
-		else
+		else{
 			popupName.SetActive(false);
+			invisibleImage.SetActive(false);
+		}		
 	}
 	public void setName(){
-		if(nameField.GetComponent<Text>().text!="")
-			PlayerPrefs.SetString("name",nameField.GetComponent<Text>().text);
+		PlayerPrefs.SetString("name",nameField.GetComponent<Text>().text);
+		invisibleImage.SetActive(false);
 	}
 }

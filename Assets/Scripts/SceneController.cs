@@ -34,7 +34,6 @@ public class SceneController:MonoBehaviour{
 			if(monster_hit%10==0 && maxSeconds!=1 && monster_hit!=0)
 				maxSeconds--;
 		}
-		yield return new WaitForSeconds(Random.Range(1,maxSeconds));
 	}
 	void RandomInstantiate(){
 		int randomValue=Random.Range(1,range);
@@ -108,7 +107,7 @@ public class SceneController:MonoBehaviour{
 	public IEnumerator Timer(int time,int position){
 		yield return new WaitForSeconds(time);
 		if(position==2)
-			shoot.GetComponent<SB_Listener>().setFireRate(0.2f);
+			shoot.GetComponent<SB_Listener>().setFireRate(0.4f);
 		else if(position==3)
 			bullet.GetComponent<BulletScript>().setDamage(1);
 		yield return new WaitForSeconds(time);

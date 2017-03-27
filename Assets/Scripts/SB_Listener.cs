@@ -10,28 +10,34 @@ public class SB_Listener:MonoBehaviour{
 	float angle;
 	bool shootEnabled=true;
 	bool tripleShoot=false;
-	public void Shoot(){
-		if(canShoot()){
-			angle=weapon.transform.rotation.z*2.3f;
-			Vector3 position=new Vector3(weapon.transform.position.x,weapon.transform.position.y,0);
-			Vector2 direction=new Vector2(-(distance*Mathf.Sin(angle)),distance*Mathf.Cos(angle));
-			Instantiate(bullet,position,weapon.transform.rotation).GetComponent<BulletScript>().setDirection(direction);
-			if(tripleShoot){
-				direction.x=direction.x-1;
-				Instantiate(bullet,position,weapon.transform.rotation).GetComponent<BulletScript>().setDirection(direction);
-				direction.x=direction.x+2;
-				Instantiate(bullet,position,weapon.transform.rotation).GetComponent<BulletScript>().setDirection(direction);
-			}
-			shootEnabled=false;
-			StartCoroutine(WaitTime());
-		}
+	void Update(){	
+		 if(Input.touchCount==1 && Time.timeScale==1){
+		 //if(Input.GetButtonDown("Fire1") && Time.timeScale==1){
+		 	Vector3 direction=Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+		 	if(controlPosition(-5.2f,5.1f,-5.9f,-8.2f,direction) && controlPosition(4.8f,5.9f,9.6f,8.6f,direction)){
+		 		weapon.transform.LookAt(direction,Vector3.forward);
+		 		Vector2 direction2=new Vector2(-(distance*Mathf.Sin(angle)),distance*Mathf.Cos(angle));
+		 		if(canShoot()){
+		 			Instantiate(bullet,weapon.transform.position,weapon.transform.rotation).GetComponent<BulletScript>().setDirection(direction2);
+		 			if(tripleShoot){
+						direction2.x=direction2.x-1;
+						Instantiate(bullet,weapon.transform.position,weapon.transform.rotation).GetComponent<BulletScript>().setDirection(direction2);
+						direction2.x=direction2.x+2;
+						Instantiate(bullet,weapon.transform.position,weapon.transform.rotation).GetComponent<BulletScript>().setDirection(direction2);
+					}
+		 			setShoot(false);
+		 			StartCoroutine(WaitTime());
+		 		}
+		 	}
+		 		
+		 }
 	}
 	bool canShoot(){
 		return shootEnabled;
 	}
 	private IEnumerator WaitTime(){
 		yield return new WaitForSeconds(fireRate);
-		shootEnabled=true;
+		setShoot(true);
 	}
 	public void setInteractable(bool value){
 		GetComponent<Button>().interactable=value;
@@ -46,5 +52,13 @@ public class SB_Listener:MonoBehaviour{
 	private IEnumerator Timer(){
 		yield return new WaitForSeconds(10);
 		tripleShoot=false;
+	}
+	bool controlPosition(float x1,float x2,float y1,float y2,Vector3 direction){
+		if(!(direction.x>x1 && direction.x<x2 && direction.y<y1 && direction.y>y2))
+			return true;
+		return false;
+	}
+	public void setShoot(bool value){
+		shootEnabled=value;
 	}
 }

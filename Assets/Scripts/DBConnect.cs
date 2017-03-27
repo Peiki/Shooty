@@ -10,8 +10,10 @@ public class DBConnect:MonoBehaviour{
     bool value;
     void Start(){
         Scene scene=SceneManager.GetActiveScene();
-        if(scene.name=="Menu")
+        if(scene.name=="Menu"){
             value=true;
+            StartCoroutine(PostScores("addscore.php?",PlayerPrefs.GetString("name"),PlayerPrefs.GetInt("highscore")));
+        }
         else
             value=false;
     }
@@ -21,13 +23,14 @@ public class DBConnect:MonoBehaviour{
         yield return hs_post;
         if(hs_post.error!=null)
             Debug.Log("There was an error posting the high score: "+hs_post.error); //error message here
-        else if(int.Parse(hs_post.text)==0){
-            GetComponent<SetName>().setName();
-            GetComponent<MenuListener>().ClosePopup();
-            StartCoroutine(PostScores("addscore.php?",PlayerPrefs.GetString("name"),PlayerPrefs.GetInt("highscore")));
-        }
-        else if(int.Parse(hs_post.text)==1)
-            message.GetComponent<Text>().text="Username già utilizzato!";
+        else if(url=="query.php?")
+            if(int.Parse(hs_post.text)==0){
+                GetComponent<SetName>().setName();
+                GetComponent<MenuListener>().ClosePopup();
+                StartCoroutine(PostScores("addscore.php?",PlayerPrefs.GetString("name"),PlayerPrefs.GetInt("highscore")));
+            }
+            else if(int.Parse(hs_post.text)==1)
+                message.GetComponent<Text>().text="Username già utilizzato!";
     }
     public void startPostScores(string url){
         if(value && nameField.GetComponent<Text>().text!="")

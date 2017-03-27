@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class ShopController:MonoBehaviour{
 	int position;
-	int previousImage;
+	int previousImage=-1;
 	[SerializeField] Button[] buttons;
 	[SerializeField] Button[] buyButtons;
 	[SerializeField] GameObject[] popups;
@@ -109,7 +109,7 @@ public class ShopController:MonoBehaviour{
 		Vector2 descriptionPosition=imageBoxes[position].transform.position;
 		if(position==1)
 			descriptionPosition.y-=100;
-		if(previousImage!=null){
+		if(previousImage!=-1){
 			Vector2 buttonPosition=buyButtons[previousImage].transform.parent.GetChild(5).transform.position;
 			if(previousImage>=3)
 				buttonPosition.y-=100;
