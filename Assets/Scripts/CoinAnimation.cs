@@ -9,14 +9,14 @@ public class CoinAnimation:MonoBehaviour{
 		moneyText.SetActive(false);
 		originalPosition=moneyText.transform.position;
 	}
+	void Update(){
+		if(moneyText.activeSelf)
+			moneyText.transform.Translate(Vector3.up);
+	}
 	public void subtractCoins(int amount){
 		moneyText.transform.position=originalPosition;
 		moneyText.SetActive(true);
 		moneyText.GetComponent<Text>().text="-"+amount;
-	}
-	void Update(){
-		if(moneyText.activeSelf)
-			moneyText.transform.Translate(Vector3.up);
 	}
 	public void OnBecameInvisible(){
 	 	moneyText.SetActive(false);

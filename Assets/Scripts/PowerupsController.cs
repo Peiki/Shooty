@@ -35,5 +35,6 @@ public class PowerupsController:MonoBehaviour{
 		}
 		else
 			noMoneyPopup.GetComponent<PopupScript>().Activate();
+			noMoneyPopup.GetComponent<PopupAnimation>().resetPosition();
 	}
 }

@@ -22,6 +22,9 @@ public class SetName:MonoBehaviour{
 			PlayerPrefs.SetInt("damage",1);
 			PlayerPrefs.SetInt("speed",1);
 			PlayerPrefs.SetInt("health",1);
+			PlayerPrefs.SetInt("check1",1);
+			PlayerPrefs.SetInt("check2",1);
+			PlayerPrefs.SetInt("check3",1);
 		}
 		else{
 			popupName.SetActive(false);

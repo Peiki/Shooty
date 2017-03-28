@@ -97,6 +97,7 @@ public class ShopController:MonoBehaviour{
 			}
 			else
 				noMoneyPopup.GetComponent<PopupScript>().Activate();
+				noMoneyPopup.GetComponent<PopupAnimation>().resetPosition();
 		}
 		
 	}

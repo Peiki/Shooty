@@ -19,6 +19,9 @@ public class MenuListener:MonoBehaviour{
 	public void GoToLeaderboards(){
 		SceneManager.LoadScene("Leaderboards",LoadSceneMode.Single);
 	}
+	public void GoToOptions(){
+		SceneManager.LoadScene("Options",LoadSceneMode.Single);
+	}
 	public void ResetStats(){
 		PlayerPrefs.DeleteAll();
 	}
