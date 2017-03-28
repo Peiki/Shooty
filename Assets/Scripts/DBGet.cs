@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System.Net;
 public class DBGet:MonoBehaviour{
     [SerializeField] GameObject loading;
+    [SerializeField] GameObject grid;
     [SerializeField] Sprite[] sprites;
     string URL="https://shooty.000webhostapp.com/display.php";
     string URL_2="https://shooty.000webhostapp.com/displayYours.php?";
@@ -21,17 +22,36 @@ public class DBGet:MonoBehaviour{
         WWW hs_get=new WWW(URL);
         yield return hs_get;
         if(hs_get.error!=null)
-            print("There was an error getting the high score: "+hs_get.error); //error message here
+            print("There was an error getting the high score: "+hs_get.error);
         loading.SetActive(false);
         connection=true;
-        transform.GetChild(2).GetChild(1).GetComponent<Text>().text=hs_get.text;
+        string[] substrings=hs_get.text.Split(';');
+        int j=1;
+        int h=0;
+        for(int i=0;i<30;i++){
+            if(i==0 || i-3*(j-1)==0){
+                grid.transform.GetChild(i).GetChild(0).GetComponent<Text>().text=j+".";
+                j++;
+            }
+            else{
+                grid.transform.GetChild(i).GetChild(0).GetComponent<Text>().text=substrings[h];
+                if(PlayerPrefs.GetString("name")==substrings[h]){
+                    grid.transform.GetChild(i-1).GetChild(0).GetComponent<Text>().color=Color.red;
+                    grid.transform.GetChild(i-1).GetChild(0).GetComponent<Outline>().effectColor=Color.red;
+                    grid.transform.GetChild(i).GetChild(0).GetComponent<Text>().color=Color.red;
+                    grid.transform.GetChild(i+1).GetChild(0).GetComponent<Text>().color=Color.red;
+                    grid.transform.GetChild(i+1).GetChild(0).GetComponent<Outline>().effectColor=Color.red;
+                }
+                h++;
+            }
+        }   
     }
     IEnumerator GetYourScore(string name){
         string post_url=URL_2+"name="+name;
         WWW hs_get=new WWW(post_url);
         yield return hs_get;
         if(hs_get.error!=null)
-            print("There was an error getting the high score: "+hs_get.error); //error message here
+            print("There was an error getting the high score: "+hs_get.error);
         transform.GetChild(2).GetChild(2).GetComponent<Text>().text+=hs_get.text;
     }
     IEnumerator GetYourRank(int score){
@@ -39,7 +59,7 @@ public class DBGet:MonoBehaviour{
         WWW hs_get=new WWW(post_url);
         yield return hs_get;
         if(hs_get.error!=null)
-            print("There was an error getting the high score: "+hs_get.error); //error message here
+            print("There was an error getting the high score: "+hs_get.error);
         transform.GetChild(2).GetChild(3).GetComponent<Text>().text+=hs_get.text;
     }
     private IEnumerator Animation(){

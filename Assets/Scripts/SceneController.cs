@@ -7,6 +7,7 @@ public class SceneController:MonoBehaviour{
 	int hearts=3;
 	int maxSeconds=6;
 	int range=21;
+	bool status=false;
 	[SerializeField] GameObject monster;
 	[SerializeField] GameObject heavyMonster;
 	[SerializeField] GameObject fastMonster;
@@ -19,21 +20,43 @@ public class SceneController:MonoBehaviour{
 	[SerializeField] GameObject monsterKilled;
 	[SerializeField] GameObject shoot;
 	[SerializeField] GameObject bullet;
+	[SerializeField] GameObject countdownImage;
 	[SerializeField] GameObject[] heartObject;
+	[SerializeField] Button exitButton;
 	[SerializeField] Sprite emptyHeart;
 	[SerializeField] Sprite fullHeart;
+	[SerializeField] Sprite invisible;
+	[SerializeField] Sprite[] countdown;
 	void Start(){
-		StartCoroutine(RandomSpawn());
+		exitButton.interactable=false;
 		for(int i=0;i<7;i++)
 			Instantiate(fence,new Vector2(-5.04f+(1.7f*i),-5),Quaternion.identity).tag="Fence";
+		StartCoroutine(Countdown(3));
 	}
 	private IEnumerator RandomSpawn(){
+		status=true;
+		exitButton.interactable=true;
 		while(true){
 			yield return new WaitForSeconds(Random.Range(1,maxSeconds));
 			RandomInstantiate();
 			if(monster_hit%10==0 && maxSeconds!=1 && monster_hit!=0)
 				maxSeconds--;
 		}
+	}
+	private IEnumerator Countdown(int count){
+		if(count!=0){
+			countdownImage.GetComponent<Image>().sprite=countdown[count];
+			countdownImage.GetComponent<GetSmaller>().resetScale();
+			yield return new WaitForSeconds(1);
+		}
+		if(count==0){
+			Destroy(countdownImage.GetComponent<GetSmaller>());
+			Destroy(countdownImage);
+			StartCoroutine(RandomSpawn());
+			Debug.Log("GO");
+		}
+		else
+			StartCoroutine(Countdown(count-1));
 	}
 	void RandomInstantiate(){
 		int randomValue=Random.Range(1,range);
@@ -114,5 +137,8 @@ public class SceneController:MonoBehaviour{
 	}
 	public void resetRange(){
 		range=range+1;
+	}
+	public bool getStatus(){
+		return status;
 	}
 }
