@@ -53,7 +53,6 @@ public class SceneController:MonoBehaviour{
 			Destroy(countdownImage.GetComponent<GetSmaller>());
 			Destroy(countdownImage);
 			StartCoroutine(RandomSpawn());
-			Debug.Log("GO");
 		}
 		else
 			StartCoroutine(Countdown(count-1));

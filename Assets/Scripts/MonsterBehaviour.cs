@@ -9,6 +9,7 @@ public class MonsterBehaviour:MonoBehaviour{
 	bool dead=false;
 	void Start(){
 		tag="Monster";
+		transform.position=new Vector3(transform.position.x,transform.position.y,-2);
 	}
 	void Update(){
 		if(!dead)
