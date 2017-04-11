@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 public class AccountController:MonoBehaviour{
 	int position;
+	bool searchActivated=false;
+	[SerializeField] Button searchButton;
 	[SerializeField] Button[] buttons;
 	[SerializeField] GameObject[] screens;
 	void Start(){
@@ -23,5 +25,12 @@ public class AccountController:MonoBehaviour{
 				screens[i].SetActive(false);
 			}
 		}
+	}
+	public void changeStatus(){
+		searchActivated=!searchActivated;
+		if(searchActivated)
+			searchButton.interactable=false;
+		else
+			searchButton.interactable=true;
 	}
 }

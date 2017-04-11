@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public class PopupScript:MonoBehaviour{
+	Scene currentScene;
 	void Start(){
+		currentScene=SceneManager.GetActiveScene();
 		gameObject.SetActive(false);
 	}
 	public void Activate(){
 		gameObject.SetActive(true);
-		Time.timeScale=0;
+		if(currentScene.name=="Game")
+			Time.timeScale=0;
 	}
 	public void Deactivate(){
 		gameObject.SetActive(false);
-		Time.timeScale=1;
+		if(currentScene.name=="Game")
+			Time.timeScale=1;
 	}
 	public void GoToMenu(){
 		SceneManager.LoadScene("Menu",LoadSceneMode.Single);

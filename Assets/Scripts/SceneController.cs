@@ -99,6 +99,7 @@ public class SceneController:MonoBehaviour{
 		hearts--;
 		if(hearts==0){
 			Time.timeScale=0;
+			exitButton.interactable=false;
 			if(monster_hit>PlayerPrefs.GetInt("highscore")){
 				PlayerPrefs.SetInt("highscore",monster_hit);
 				GetComponent<DBConnect>().startPostScores("updatescore.php?");
