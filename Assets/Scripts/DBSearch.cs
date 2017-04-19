@@ -24,39 +24,29 @@ public class DBSearch:MonoBehaviour{
         int j=0;
         for(int i=1;j<substrings.Length-1;i=i+2){
             grid.transform.GetChild(i-1).GetChild(0).GetComponent<Text>().text=substrings[j];
-            grid.transform.GetChild(i-1).GetChild(1).GetComponent<Image>().sprite=userImage;
-            string follower=grid.transform.GetChild(i-1).GetChild(0).GetComponent<Text>().text;
-            //if(StartCoroutine(CheckFollowed(PlayerPrefs.GetString("name"),follower))==1)
-           	grid.transform.GetChild(i).gameObject.SetActive(true);
+            grid.transform.GetChild(i-1).GetChild(1).GetChild(0).GetComponent<Image>().sprite=userImage;
+            grid.transform.GetChild(i-1).GetChild(1).GetChild(0).gameObject.AddComponent<Outline>();
+            grid.transform.GetChild(i-1).GetChild(1).GetChild(0).gameObject.SetActive(true);
+            string followed=grid.transform.GetChild(i-1).GetChild(0).GetComponent<Text>().text;
+            post_url=URL2+"follower="+PlayerPrefs.GetString("name")+"&followed="+followed;
+            hs_get=new WWW(post_url);
+            yield return hs_get;
+            grid.transform.GetChild(i).gameObject.SetActive(true);
+            if(int.Parse(hs_get.text)==1 || followed==PlayerPrefs.GetString("name"))
+                grid.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Button>().interactable=false;
             j++;
         }
         if(substrings.Length==1)
        		notFound.gameObject.SetActive(true);
     }
-    /*IEnumerator CheckFollowed(string follower,string followed){
-    	string post_url=URL2+"follower="+follower+"&followed="+followed;
-        WWW hs_get=new WWW(post_url);
-        yield return hs_get;
-        if(hs_get.error!=null)
-            print("There was an error getting the high score: "+hs_get.error);
-        connection=true;
-        loading.SetActive(false);
-        string[] substrings=hs_get.text.Split(';');
-        int j=0;
-        for(int i=1;j<substrings.Length-1;i=i+2){
-            grid.transform.GetChild(i).gameObject.SetActive(true);
-            grid.transform.GetChild(i-1).GetChild(0).GetComponent<Text>().text=substrings[j];
-            grid.transform.GetChild(i-1).GetChild(1).GetComponent<Image>().sprite=userImage;
-            j++;
-        }
-        if(substrings.Length==1)
-       		notFound.gameObject.SetActive(true);
-    }*/
     public void emptyGrid(){
     	for(int i=1;i<14;i=i+2){
     		grid.transform.GetChild(i).gameObject.SetActive(false);
             grid.transform.GetChild(i-1).GetChild(0).GetComponent<Text>().text="";
-            grid.transform.GetChild(i-1).GetChild(1).GetComponent<Image>().sprite=null;
+            grid.transform.GetChild(i-1).GetChild(1).GetChild(0).GetComponent<Image>().sprite=null;
+            Destroy(grid.transform.GetChild(i-1).GetChild(1).GetChild(0).gameObject.GetComponent<Outline>());
+            grid.transform.GetChild(i-1).GetChild(1).GetChild(0).gameObject.SetActive(false);
+            grid.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Button>().interactable=true;
     	}
     }
 	public void searchName(){

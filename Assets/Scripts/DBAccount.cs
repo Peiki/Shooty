@@ -62,6 +62,7 @@ public class DBAccount:MonoBehaviour{
         int j=0;
         for(int i=1;j<substrings.Length-1;i=i+2){
             grid.transform.GetChild(i).GetComponent<Text>().text=substrings[j];
+            grid.transform.GetChild(i-1).GetChild(0).gameObject.SetActive(true);
             grid.transform.GetChild(i-1).GetChild(0).GetComponent<Image>().sprite=userImage;
             grid.transform.GetChild(i-1).GetChild(0).gameObject.AddComponent<Outline>();
             j++;
