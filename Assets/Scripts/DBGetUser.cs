@@ -15,7 +15,9 @@ public class DBGetUser:MonoBehaviour{
    	string URL_2="https://shooty.000webhostapp.com/addFriend.php?";
    	string URL_3="https://shooty.000webhostapp.com/displayRank.php?";
    	string URL_4="https://shooty.000webhostapp.com/checkFollowed.php?";
+   	string URL_5="https://shooty.000webhostapp.com/removeFriend.php?";
     string username;
+    bool friend;
     bool connection=false;
 	public void openPopup(){
 		userPopup.transform.GetChild(0).GetComponent<Image>().sprite=null;
@@ -37,7 +39,10 @@ public class DBGetUser:MonoBehaviour{
 		StartCoroutine(CheckFollowed());
 	}
 	public void addFriend(){
-		StartCoroutine(AddFriend());
+		if(friend)
+			StartCoroutine(RemoveFriend());
+		else
+			StartCoroutine(AddFriend());
 	}
 	private IEnumerator GetUser(string name){
 		string post_url=URL+"name="+name;
@@ -59,20 +64,47 @@ public class DBGetUser:MonoBehaviour{
         userPopup.transform.GetChild(3).GetComponent<Text>().text="Highscore: "+score;
 	}
 	private IEnumerator AddFriend(){
-		addButton.interactable=false;
+		changeButton(false);
 		string post_url=URL_2+"follower="+PlayerPrefs.GetString("name")+"&followed="+username;
 		WWW hs_get=new WWW(post_url);
         yield return hs_get;
         if(hs_get.error!=null)
             print("There was an error getting the high score: "+hs_get.error);
-        
+	}
+	private IEnumerator RemoveFriend(){
+		changeButton(true);
+		string post_url=URL_5+"follower="+PlayerPrefs.GetString("name")+"&followed="+username;
+		WWW hs_get=new WWW(post_url);
+        yield return hs_get;
+        if(hs_get.error!=null)
+            print("There was an error getting the high score: "+hs_get.error);
 	}
 	private IEnumerator CheckFollowed(){
+		addButton.interactable=false;
 		string post_url=URL_4+"follower="+PlayerPrefs.GetString("name")+"&followed="+username;
         WWW hs_get=new WWW(post_url);
         yield return hs_get;
-        if(int.Parse(hs_get.text)==0)
-        	addButton.interactable=true;
+        addButton.interactable=true;
+        if(int.Parse(hs_get.text)==0){
+        	changeButton(true);
+        }
+        else{
+        	changeButton(false);
+        }
+	}
+	void changeButton(bool value){
+		var colors=addButton.colors;
+		if(value){
+			colors.normalColor=Color.black;
+        	addButton.transform.GetChild(0).gameObject.GetComponent<Text>().text="Add Friend";
+        	friend=false;
+		}
+		else{
+			colors.normalColor=Color.red;
+        	addButton.transform.GetChild(0).gameObject.GetComponent<Text>().text="Remove";
+        	friend=true;
+		}
+		addButton.colors=colors;
 	}
 	private IEnumerator Animation(){
         while(loading.activeSelf)
