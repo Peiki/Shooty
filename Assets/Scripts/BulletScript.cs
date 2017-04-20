@@ -11,6 +11,8 @@ public class BulletScript:MonoBehaviour{
 	}
 	public void setDirection(Vector2 direction){
 		this.direction=direction;
+		if(PlayerPrefs.GetInt("check2")==1)
+			playSound();
 	}
 	void OnTriggerEnter2D(Collider2D collider){
 		if(collider.gameObject.tag=="Monster"){
@@ -27,4 +29,7 @@ public class BulletScript:MonoBehaviour{
  	public void setDamage(int damage){
  		this.damage=damage;
  	}
+	void playSound(){
+		GetComponent<AudioSource>().PlayOneShot(GetComponent<AudioSource>().clip);
+	}
 }

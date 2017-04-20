@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 public class MonsterBehaviour:MonoBehaviour{
 	[SerializeField] GameObject coin;
+	[SerializeField] AudioClip hitSound;
+	[SerializeField] AudioClip deadSound;
 	public float speed;
 	public float life;
 	public int chance;
@@ -20,6 +22,11 @@ public class MonsterBehaviour:MonoBehaviour{
 		if(life<=0){
 			dead=true;
 			Destroy(GetComponent<BoxCollider2D>());
+			if(PlayerPrefs.GetInt("check2")==1)
+				playDeadSound();
+		}
+		else if(PlayerPrefs.GetInt("check2")==1){
+			playHitSound();
 		}
 	}
     public IEnumerator FlashColor(){
@@ -50,4 +57,11 @@ public class MonsterBehaviour:MonoBehaviour{
 	 	Destroy(this);
 	 	Destroy(gameObject);
  	}
+ 	void playHitSound(){
+		GetComponent<AudioSource>().PlayOneShot(hitSound);
+	}
+ 	void playDeadSound(){
+		GetComponent<AudioSource>().PlayOneShot(deadSound);
+	}
+	
 }

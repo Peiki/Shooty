@@ -18,5 +18,10 @@ public class CoinScript:MonoBehaviour{
 	public void Activate(){
 		StartCoroutine(coinAnimation());
 		StartCoroutine(Timer());
+		if(PlayerPrefs.GetInt("check2")==1)
+			playSound();
+	}
+	void playSound(){
+		GetComponent<AudioSource>().PlayOneShot(GetComponent<AudioSource>().clip);
 	}
 }

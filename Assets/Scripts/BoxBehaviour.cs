@@ -21,6 +21,8 @@ public class BoxBehaviour:MonoBehaviour{
 	public void Activate(){
 		setDead=true;
 		time=15;
+		if(PlayerPrefs.GetInt("check2")==1)
+			playSound();
 		if(powerup==1)
 			controller.GetComponent<SceneController>().addHeart();
 		else if(powerup==2)
@@ -40,5 +42,8 @@ public class BoxBehaviour:MonoBehaviour{
 		controller.GetComponent<SceneController>().startTimer(time,powerup);
 		controller.GetComponent<SceneController>().resetRange();
 		Instantiate(powerupSprite,this.transform.position,Quaternion.identity).GetComponent<PowerUpScript>().setSprite(powerup);
+	}
+	void playSound(){
+		GetComponent<AudioSource>().PlayOneShot(GetComponent<AudioSource>().clip);
 	}
 }

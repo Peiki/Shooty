@@ -28,6 +28,10 @@ public class SceneController:MonoBehaviour{
 	[SerializeField] Sprite invisible;
 	[SerializeField] Sprite[] countdown;
 	void Start(){
+		if(PlayerPrefs.GetInt("check1")==1){
+			playMusic();
+			GetComponent<AudioSource>().loop=true;
+		}
 		exitButton.interactable=false;
 		for(int i=0;i<7;i++)
 			Instantiate(fence,new Vector2(-5.04f+(1.7f*i),-5),Quaternion.identity).tag="Fence";
@@ -99,6 +103,7 @@ public class SceneController:MonoBehaviour{
 		hearts--;
 		if(hearts==0){
 			Time.timeScale=0;
+			stopMusic();
 			exitButton.interactable=false;
 			if(monster_hit>PlayerPrefs.GetInt("highscore")){
 				PlayerPrefs.SetInt("highscore",monster_hit);
@@ -140,5 +145,11 @@ public class SceneController:MonoBehaviour{
 	}
 	public bool getStatus(){
 		return status;
+	}
+	void playMusic(){
+		GetComponent<AudioSource>().Play();
+	}
+	void stopMusic(){
+		GetComponent<AudioSource>().Stop();
 	}
 }
