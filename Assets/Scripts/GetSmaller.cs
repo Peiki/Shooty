@@ -8,5 +8,10 @@ public class GetSmaller:MonoBehaviour{
 	}
 	public void resetScale(){
 		transform.localScale=new Vector3(1,1,1);
+		if(PlayerPrefs.GetInt("check2")==1)
+			playSound();
+	}
+	void playSound(){
+		GetComponent<AudioSource>().PlayOneShot(GetComponent<AudioSource>().clip);
 	}
 }

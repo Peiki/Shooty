@@ -6,6 +6,8 @@ public class PowerupsController:MonoBehaviour{
 	[SerializeField] GameObject[] powerupObject;
 	[SerializeField] GameObject coinsNumber;
 	[SerializeField] GameObject noMoneyPopup;
+	[SerializeField] AudioClip buySound;
+	[SerializeField] AudioClip noMoneySound;
 	string[] playerPrefs=new string[]{"damage","speed","health"};
 	void Start(){
 		setPowerups();
@@ -32,9 +34,14 @@ public class PowerupsController:MonoBehaviour{
 			coinsNumber.GetComponent<CoinAnimation>().subtractCoins(int.Parse(powerupObject[i].transform.GetChild(3).GetChild(1).GetComponent<Text>().text));
 			PlayerPrefs.SetInt(playerPrefs[i],PlayerPrefs.GetInt(playerPrefs[i])+1);
 			setPowerups();
+			if(PlayerPrefs.GetInt("check2")==1)
+					GetComponent<AudioSource>().PlayOneShot(buySound);
 		}
-		else
+		else{
+			if(PlayerPrefs.GetInt("check2")==1)
+					GetComponent<AudioSource>().PlayOneShot(noMoneySound);
 			noMoneyPopup.GetComponent<PopupScript>().Activate();
+		}
 			noMoneyPopup.GetComponent<PopupAnimation>().resetPosition();
 	}
 }

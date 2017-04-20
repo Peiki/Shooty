@@ -13,6 +13,9 @@ public class ShopController:MonoBehaviour{
 	[SerializeField] string[] descriptions;
 	[SerializeField] GameObject[] texts;
 	[SerializeField] GameObject[] imageBoxes;
+	[SerializeField] AudioClip buySound;
+	[SerializeField] AudioClip tap;
+	[SerializeField] AudioClip noMoneySound;
 	void Start(){
 		changePosition(0);
 		setUpButtons();
@@ -71,6 +74,8 @@ public class ShopController:MonoBehaviour{
 	}
 	public void buyObject(int i){
 		if(buyButtons[i-1].transform.GetChild(0).GetComponent<Text>().text=="OWNED"){
+			if(PlayerPrefs.GetInt("check2")==1)
+				GetComponent<AudioSource>().PlayOneShot(tap);
 			string type="weapon";
 			if(position==1){
 				type="skill";
@@ -83,6 +88,8 @@ public class ShopController:MonoBehaviour{
 		else{
 			string type="weapon";
 			if(int.Parse(buyButtons[i-1].transform.GetChild(0).GetComponent<Text>().text)<=PlayerPrefs.GetInt("coins")){
+				if(PlayerPrefs.GetInt("check2")==1)
+					GetComponent<AudioSource>().PlayOneShot(buySound);
 				if(position==1){
 					type="skill";
 					i=i-3;
@@ -95,8 +102,11 @@ public class ShopController:MonoBehaviour{
 				PlayerPrefs.SetInt(type+i,2);
 				setUpButtons();
 			}
-			else
+			else{
+				if(PlayerPrefs.GetInt("check2")==1)
+					GetComponent<AudioSource>().PlayOneShot(noMoneySound);
 				noMoneyPopup.GetComponent<PopupScript>().Activate();
+			}
 				noMoneyPopup.GetComponent<PopupAnimation>().resetPosition();
 		}
 		
