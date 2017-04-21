@@ -7,6 +7,7 @@ public class EnemyBehaviour:MonoBehaviour{
 	[SerializeField] GameObject fire;
 	bool setDead=false;
 	public bool attack;
+	public int score;
 	public void Update(){
 		if(GetComponent<MonsterBehaviour>().getDead() && !setDead)
 			die();
@@ -14,6 +15,7 @@ public class EnemyBehaviour:MonoBehaviour{
 	public void die(){
 		setDead=true;
 		controller.GetComponent<SceneController>().monsterHit();
+		controller.GetComponent<SceneController>().incrementScore(score);
 		pbForeground.GetComponent<ProgressBar>().fillAmount(0.10f);
 	}
 	void OnTriggerEnter2D(Collider2D collider){

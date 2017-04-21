@@ -4,10 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 public class SceneController:MonoBehaviour{
 	int monster_hit=0;
+	int score=0;
 	int hearts=3;
 	int maxSeconds=6;
 	int range=21;
 	bool status=false;
+	bool levelUp=false;
+	bool incremented=false;
+	float timeToFade=1.0f;
 	[SerializeField] GameObject monster;
 	[SerializeField] GameObject heavyMonster;
 	[SerializeField] GameObject fastMonster;
@@ -21,11 +25,15 @@ public class SceneController:MonoBehaviour{
 	[SerializeField] GameObject shoot;
 	[SerializeField] GameObject bullet;
 	[SerializeField] GameObject countdownImage;
+	[SerializeField] GameObject background;
+	[SerializeField] GameObject nextLevel;
+	[SerializeField] GameObject scoreText;
 	[SerializeField] GameObject[] heartObject;
 	[SerializeField] Button exitButton;
 	[SerializeField] Sprite emptyHeart;
 	[SerializeField] Sprite fullHeart;
 	[SerializeField] Sprite invisible;
+	[SerializeField] Sprite background_desert;
 	[SerializeField] Sprite[] countdown;
 	void Start(){
 		if(PlayerPrefs.GetInt("check1")==1){
@@ -33,6 +41,7 @@ public class SceneController:MonoBehaviour{
 			GetComponent<AudioSource>().loop=true;
 		}
 		exitButton.interactable=false;
+		scoreText.GetComponent<Text>().text="SCORE:\n"+score;
 		for(int i=0;i<7;i++)
 			Instantiate(fence,new Vector2(-5.04f+(1.7f*i),-5),Quaternion.identity).tag="Fence";
 		StartCoroutine(Countdown(3));
@@ -43,8 +52,17 @@ public class SceneController:MonoBehaviour{
 		while(true){
 			yield return new WaitForSeconds(Random.Range(1,maxSeconds));
 			RandomInstantiate();
-			if(monster_hit%10==0 && maxSeconds!=1 && monster_hit!=0)
+			if(monster_hit>=10 && !levelUp){
+				levelUp=true;
+				changeArea();
+				break;
+			}
+			if(monster_hit%10==0 && maxSeconds!=1 && monster_hit!=0 && !incremented){
+				incremented=true;
 				maxSeconds--;
+			}
+			else if(!(monster_hit%10==0))
+				incremented=false;
 		}
 	}
 	private IEnumerator Countdown(int count){
@@ -54,8 +72,7 @@ public class SceneController:MonoBehaviour{
 			yield return new WaitForSeconds(1);
 		}
 		if(count==0){
-			Destroy(countdownImage.GetComponent<GetSmaller>());
-			Destroy(countdownImage);
+			countdownImage.SetActive(false);
 			StartCoroutine(RandomSpawn());
 		}
 		else
@@ -97,6 +114,10 @@ public class SceneController:MonoBehaviour{
 		monster_hit++;
 		monsterKilled.GetComponent<Text>().text="= "+monster_hit;
 	}
+	public void incrementScore(int amount){
+		score+=amount;
+		scoreText.GetComponent<Text>().text="SCORE:\n"+score;
+	}
 	public void removeHeart(){
 		heartObject[hearts-1].GetComponent<Image>().sprite=emptyHeart;
 		StartCoroutine(Flash(heartObject[hearts-1]));
@@ -105,8 +126,8 @@ public class SceneController:MonoBehaviour{
 			Time.timeScale=0;
 			stopMusic();
 			exitButton.interactable=false;
-			if(monster_hit>PlayerPrefs.GetInt("highscore")){
-				PlayerPrefs.SetInt("highscore",monster_hit);
+			if(score>PlayerPrefs.GetInt("highscore")){
+				PlayerPrefs.SetInt("highscore",score);
 				GetComponent<DBConnect>().startPostScores("updatescore.php?");
 				gameOverPopup.transform.GetChild(0).GetComponent<Text>().text="NEW HIGHSCORE!\n";
 			}
@@ -139,6 +160,11 @@ public class SceneController:MonoBehaviour{
 		else if(position==3)
 			bullet.GetComponent<BulletScript>().setDamage(1);
 		yield return new WaitForSeconds(time);
+		if(position==100){
+			nextLevel.gameObject.SetActive(false);
+			countdownImage.SetActive(true);
+			StartCoroutine(Countdown(3));
+		}
 	}
 	public void resetRange(){
 		range=range+1;
@@ -151,5 +177,11 @@ public class SceneController:MonoBehaviour{
 	}
 	void stopMusic(){
 		GetComponent<AudioSource>().Stop();
+	}
+	void changeArea(){
+		exitButton.interactable=false;
+		background.GetComponent<SpriteRenderer>().sprite=background_desert;
+		StartCoroutine(Timer(5,100));
+		nextLevel.gameObject.SetActive(true);
 	}
 }
