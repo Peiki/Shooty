@@ -23,8 +23,10 @@ public class BoxBehaviour:MonoBehaviour{
 		time=15;
 		if(PlayerPrefs.GetInt("check2")==1)
 			playSound();
-		if(powerup==1)
+		if(powerup==1){
 			controller.GetComponent<SceneController>().addHeart();
+			controller.GetComponent<SceneController>().resetRange();
+		}
 		else if(powerup==2)
 			shoot.GetComponent<SB_Listener>().setFireRate(0.1f);
 		else if(powerup==3)
@@ -40,7 +42,6 @@ public class BoxBehaviour:MonoBehaviour{
 		if(powerup!=1)
 			timerOnGui.GetComponent<TimerBehaviour>().setTime(powerup);
 		controller.GetComponent<SceneController>().startTimer(time,powerup);
-		controller.GetComponent<SceneController>().resetRange();
 		Instantiate(powerupSprite,this.transform.position,Quaternion.identity).GetComponent<PowerUpScript>().setSprite(powerup);
 	}
 	void playSound(){

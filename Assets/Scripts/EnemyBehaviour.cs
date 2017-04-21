@@ -5,6 +5,7 @@ public class EnemyBehaviour:MonoBehaviour{
 	[SerializeField] GameObject controller;
 	[SerializeField] GameObject pbForeground;
 	[SerializeField] GameObject fire;
+	[SerializeField] AudioClip enemyAttackSound;
 	bool setDead=false;
 	public bool attack;
 	public int score;
@@ -18,6 +19,9 @@ public class EnemyBehaviour:MonoBehaviour{
 		controller.GetComponent<SceneController>().incrementScore(score);
 		pbForeground.GetComponent<ProgressBar>().fillAmount(0.10f);
 	}
+	void playSound(){
+		GetComponent<AudioSource>().PlayOneShot(enemyAttackSound);
+	}
 	void OnTriggerEnter2D(Collider2D collider){
         if(collider.gameObject.tag=="Fence"){
         	Vector3 monsterRotation=transform.rotation.eulerAngles;
@@ -25,6 +29,7 @@ public class EnemyBehaviour:MonoBehaviour{
         	Vector3 monsterPosition=transform.position;
         	monsterPosition.y=monsterPosition.y-1;
         	monsterPosition.z=-1;
+        	playSound();
         	if(attack)
         		Instantiate(fire,monsterPosition,Quaternion.Euler(monsterRotation)).GetComponent<FireBehaviour>().Activate(true);
         	if(!GetComponent<MonsterBehaviour>().getDead())

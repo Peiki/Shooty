@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class TimerBehaviour:MonoBehaviour{
 	[SerializeField] Sprite[] sprites;
 	[SerializeField] Sprite invisible;
+	[SerializeField] GameObject controller;
 	int position;
 	void Start(){
 		transform.GetChild(0).GetComponent<Image>().sprite=invisible;
@@ -24,7 +25,6 @@ public class TimerBehaviour:MonoBehaviour{
 			i--;
 		}
 		StartCoroutine(Flash());
-		
 	}
 	public IEnumerator Flash(){
 		for(int i=0;i<5;i++){
@@ -37,5 +37,6 @@ public class TimerBehaviour:MonoBehaviour{
 		}
 		transform.GetChild(0).GetComponent<Image>().sprite=invisible;
 		transform.GetChild(1).GetComponent<Text>().text="";
+		controller.GetComponent<SceneController>().resetRange();
 	}
 }

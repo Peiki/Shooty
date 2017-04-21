@@ -11,7 +11,6 @@ public class SceneController:MonoBehaviour{
 	bool status=false;
 	bool levelUp=false;
 	bool incremented=false;
-	float timeToFade=1.0f;
 	[SerializeField] GameObject monster;
 	[SerializeField] GameObject heavyMonster;
 	[SerializeField] GameObject fastMonster;
@@ -24,6 +23,7 @@ public class SceneController:MonoBehaviour{
 	[SerializeField] GameObject monsterKilled;
 	[SerializeField] GameObject shoot;
 	[SerializeField] GameObject bullet;
+	[SerializeField] GameObject weapon;
 	[SerializeField] GameObject countdownImage;
 	[SerializeField] GameObject background;
 	[SerializeField] GameObject nextLevel;
@@ -34,8 +34,16 @@ public class SceneController:MonoBehaviour{
 	[SerializeField] Sprite fullHeart;
 	[SerializeField] Sprite invisible;
 	[SerializeField] Sprite background_desert;
+	[SerializeField] Sprite[] weaponsImage;
 	[SerializeField] Sprite[] countdown;
+	[SerializeField] AudioClip gameOverSound;
+	[SerializeField] AudioClip heartLossSound;
 	void Start(){
+		for(int i=0;i<3;i++){
+			if(PlayerPrefs.GetInt("weapon"+(i+1))==2)
+				weapon.GetComponent<SpriteRenderer>().sprite=weaponsImage[i];
+		}
+		//special
 		if(PlayerPrefs.GetInt("check1")==1){
 			playMusic();
 			GetComponent<AudioSource>().loop=true;
@@ -43,7 +51,7 @@ public class SceneController:MonoBehaviour{
 		exitButton.interactable=false;
 		scoreText.GetComponent<Text>().text="SCORE:\n"+score;
 		for(int i=0;i<7;i++)
-			Instantiate(fence,new Vector2(-5.04f+(1.7f*i),-5),Quaternion.identity).tag="Fence";
+			Instantiate(fence,new Vector3(-5.04f+(1.7f*i),-5,-1),Quaternion.identity).tag="Fence";
 		StartCoroutine(Countdown(3));
 	}
 	private IEnumerator RandomSpawn(){
@@ -81,21 +89,21 @@ public class SceneController:MonoBehaviour{
 	void RandomInstantiate(){
 		int randomValue=Random.Range(1,range);
 		if(randomValue==20){
-			Instantiate(box,randomPosition(),Quaternion.identity);
-			range=range-1;
+			Instantiate(box,randomPosition(),Quaternion.identity).GetComponent<MonsterBehaviour>().setMove();
+			decreaseRange();
 		}
 		else if(randomValue>15 && randomValue<20)
-			Instantiate(diagonalMonster,randomPosition(),Quaternion.identity);
+			Instantiate(diagonalMonster,randomPosition(),Quaternion.identity).GetComponent<MonsterBehaviour>().setMove();
 		else if(randomValue>13 && randomValue<16)
-			Instantiate(hiddenMonster,randomPosition(),Quaternion.identity);
+			Instantiate(hiddenMonster,randomPosition(),Quaternion.identity).GetComponent<MonsterBehaviour>().setMove();
 		else if(randomValue>10 && randomValue<14)
-			Instantiate(fastMonster,randomPosition(),Quaternion.identity);
+			Instantiate(fastMonster,randomPosition(),Quaternion.identity).GetComponent<MonsterBehaviour>().setMove();
 		else if(randomValue==10)
-			Instantiate(heavyMonster,randomPosition(),Quaternion.identity);
+			Instantiate(heavyMonster,randomPosition(),Quaternion.identity).GetComponent<MonsterBehaviour>().setMove();
 		else
-			Instantiate(monster,randomPosition(),Quaternion.identity);
+			Instantiate(monster,randomPosition(),Quaternion.identity).GetComponent<MonsterBehaviour>().setMove();
 	}
-	Vector2 randomPosition(){
+	Vector3 randomPosition(){
 		int number=Random.Range(1,6);
 		float positionX;
 		if(number==1)
@@ -122,9 +130,11 @@ public class SceneController:MonoBehaviour{
 		heartObject[hearts-1].GetComponent<Image>().sprite=emptyHeart;
 		StartCoroutine(Flash(heartObject[hearts-1]));
 		hearts--;
+		playHeartLossSound();
 		if(hearts==0){
 			Time.timeScale=0;
 			stopMusic();
+			playGameOverSound();
 			exitButton.interactable=false;
 			if(score>PlayerPrefs.GetInt("highscore")){
 				PlayerPrefs.SetInt("highscore",score);
@@ -166,8 +176,11 @@ public class SceneController:MonoBehaviour{
 			StartCoroutine(Countdown(3));
 		}
 	}
+	public void decreaseRange(){
+		range=range-1;
+	}
 	public void resetRange(){
-		range=range+1;
+		range=21;
 	}
 	public bool getStatus(){
 		return status;
@@ -177,6 +190,12 @@ public class SceneController:MonoBehaviour{
 	}
 	void stopMusic(){
 		GetComponent<AudioSource>().Stop();
+	}
+	void playGameOverSound(){
+		GetComponent<AudioSource>().PlayOneShot(gameOverSound);
+	}
+	void playHeartLossSound(){
+		GetComponent<AudioSource>().PlayOneShot(heartLossSound);
 	}
 	void changeArea(){
 		exitButton.interactable=false;

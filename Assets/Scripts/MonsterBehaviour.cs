@@ -5,6 +5,7 @@ public class MonsterBehaviour:MonoBehaviour{
 	[SerializeField] GameObject coin;
 	[SerializeField] AudioClip hitSound;
 	[SerializeField] AudioClip deadSound;
+	bool canMove=false;
 	public float speed;
 	public float life;
 	public int chance;
@@ -13,7 +14,7 @@ public class MonsterBehaviour:MonoBehaviour{
 		tag="Monster";
 	}
 	void Update(){
-		if(!dead)
+		if(!dead && canMove)
 			transform.Translate(Vector3.down*speed*Time.deltaTime);
 	}
 	public void getHit(int damage){
@@ -53,15 +54,13 @@ public class MonsterBehaviour:MonoBehaviour{
 	public void setDead(){
 		dead=true;
 	}
-	public void OnBecameInvisible(){
-	 	Destroy(this);
-	 	Destroy(gameObject);
- 	}
  	void playHitSound(){
 		GetComponent<AudioSource>().PlayOneShot(hitSound);
 	}
  	void playDeadSound(){
 		GetComponent<AudioSource>().PlayOneShot(deadSound);
 	}
-	
+	public void setMove(){
+		canMove=true;
+	}
 }

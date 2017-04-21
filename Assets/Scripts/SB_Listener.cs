@@ -10,7 +10,7 @@ public class SB_Listener:MonoBehaviour{
 	float angle;
 	bool shootEnabled=true;
 	bool tripleShoot=false;
-	void Update(){	
+	void Update(){
 		 if(Input.touchCount==1 && Time.timeScale==1 && GetComponent<SceneController>().getStatus()){
 		 	Vector3 direction=Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
 		 	if(controlPosition(-5.2f,5.1f,-5.9f,-8.2f,direction) && controlPosition(4.8f,5.9f,9.6f,8.6f,direction)){

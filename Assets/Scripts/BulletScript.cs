@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 public class BulletScript:MonoBehaviour{
 	[SerializeField] GameObject hitSprite;
+	[SerializeField] Sprite[] bulletsImage;
 	public float bulletSpeed;
 	public float damage;
 	Vector2 direction;
+	void Start(){
+		for(int i=0;i<3;i++)
+			if(PlayerPrefs.GetInt("weapon"+(i+1))==2)
+				GetComponent<SpriteRenderer>().sprite=bulletsImage[i];
+	}
 	void Update(){
 		transform.Translate(direction*Time.deltaTime*bulletSpeed);
 	}
