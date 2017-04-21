@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 public class AccountController:MonoBehaviour{
-	int position;
 	bool searchActivated=false;
 	[SerializeField] Button searchButton;
 	[SerializeField] Button[] buttons;
@@ -12,7 +11,6 @@ public class AccountController:MonoBehaviour{
 		changePosition(0);
 	}
 	public void changePosition(int position){
-		this.position=position;
 		for(int i=0;i<2;i++){
 			if(i==position){
 				buttons[i].GetComponent<Image>().color=Color.grey;

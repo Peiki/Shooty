@@ -96,11 +96,13 @@ public class DBGetUser:MonoBehaviour{
 		var colors=addButton.colors;
 		if(value){
 			colors.normalColor=Color.black;
+            colors.highlightedColor=Color.black;
         	addButton.transform.GetChild(0).gameObject.GetComponent<Text>().text="Add Friend";
         	friend=false;
 		}
 		else{
 			colors.normalColor=Color.red;
+            colors.highlightedColor=Color.red;
         	addButton.transform.GetChild(0).gameObject.GetComponent<Text>().text="Remove";
         	friend=true;
 		}

@@ -17,4 +17,7 @@ public class Animate:MonoBehaviour{
 				}		
 		}
 	}
+	public void startAnimation(){
+		StartCoroutine(StartAnimation());
+	}
 }

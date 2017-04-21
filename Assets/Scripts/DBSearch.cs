@@ -9,7 +9,8 @@ public class DBSearch:MonoBehaviour{
 	[SerializeField] GameObject grid;
 	[SerializeField] GameObject inputField;
 	[SerializeField] GameObject notFound;
-	bool connection=false;
+    [SerializeField] Button searchButton;
+    [SerializeField] Button exitButton;
 	string URL="https://shooty.000webhostapp.com/searchName.php?";
 	string URL2="https://shooty.000webhostapp.com/checkFollowed.php?";
 	IEnumerator GetFollowed(string name){
@@ -18,7 +19,6 @@ public class DBSearch:MonoBehaviour{
         yield return hs_get;
         if(hs_get.error!=null)
             print("There was an error getting the high score: "+hs_get.error);
-        connection=true;
         loading.SetActive(false);
         string[] substrings=hs_get.text.Split(';');
         int j=0;
@@ -38,6 +38,8 @@ public class DBSearch:MonoBehaviour{
         }
         if(substrings.Length==1)
        		notFound.gameObject.SetActive(true);
+        searchButton.interactable=true;
+        exitButton.interactable=true;
     }
     public void emptyGrid(){
     	for(int i=1;i<14;i=i+2){
@@ -50,6 +52,8 @@ public class DBSearch:MonoBehaviour{
     	}
     }
 	public void searchName(){
+        searchButton.interactable=false;
+        exitButton.interactable=false;
 		loading.gameObject.SetActive(true);
 		notFound.gameObject.SetActive(false);
 		emptyGrid();
