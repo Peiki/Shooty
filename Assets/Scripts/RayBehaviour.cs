@@ -8,8 +8,9 @@ public class RayBehaviour:MonoBehaviour{
 	[SerializeField] GameObject weapon;
 	[SerializeField] Sprite[] rayImage1;
 	void Start(){
-		Vector2 weaponPosition=weapon.transform.position;
+		Vector3 weaponPosition=weapon.transform.position;
 		weaponPosition.y=-4.55f;
+		weaponPosition.z=-1;
 		transform.position=weaponPosition;
 		gameObject.SetActive(false);
 	}
@@ -28,7 +29,7 @@ public class RayBehaviour:MonoBehaviour{
 		while(gameObject.activeSelf)
 			for(int i=0;i<5;i++){	
 				if(PlayerPrefs.GetInt("skill1")==2)
-				GetComponent<SpriteRenderer>().sprite=rayImage1[i];
+					GetComponent<SpriteRenderer>().sprite=rayImage1[i];
 				else
 					Debug.Log("NOTHING");
 				yield return new WaitForSeconds(0.1f);

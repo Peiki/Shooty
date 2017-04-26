@@ -14,6 +14,7 @@ public class BulletScript:MonoBehaviour{
 	}
 	void Update(){
 		transform.Translate(direction*Time.deltaTime*bulletSpeed);
+		transform.position=new Vector3(transform.position.x,transform.position.y,-1);
 	}
 	public void setDirection(Vector2 direction){
 		this.direction=direction;
@@ -22,7 +23,9 @@ public class BulletScript:MonoBehaviour{
 	}
 	void OnTriggerEnter2D(Collider2D collider){
 		if(collider.gameObject.tag=="Monster"){
-			Instantiate(hitSprite,transform.position,Quaternion.identity).GetComponent<HitBehaviour>().startCoroutine();
+			Vector3 position=transform.position;
+			position.z=-2;
+			Instantiate(hitSprite,position,Quaternion.identity).GetComponent<HitBehaviour>().startCoroutine();
 			collider.GetComponent<MonsterBehaviour>().getHit((int)damage);
 			Destroy(this);
 			Destroy(gameObject);
