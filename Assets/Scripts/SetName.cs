@@ -8,7 +8,6 @@ public class SetName:MonoBehaviour{
 	[SerializeField] GameObject panel;
 	void Start(){
 		if(PlayerPrefs.GetString("name")==""){
-			popupName.SetActive(true);
 			PlayerPrefs.SetInt("weapon1", 2);
 			PlayerPrefs.SetInt("weapon2", 0);
 			PlayerPrefs.SetInt("weapon3", 0);
@@ -25,6 +24,9 @@ public class SetName:MonoBehaviour{
 			PlayerPrefs.SetInt("check1",1);
 			PlayerPrefs.SetInt("check2",1);
 			PlayerPrefs.SetInt("check3",1);
+			PlayerPrefs.SetInt("tut_Start",0);
+			PlayerPrefs.SetInt("tut_Shop",0);
+			popupName.SetActive(true);
 		}
 		else{
 			popupName.SetActive(false);
@@ -33,6 +35,6 @@ public class SetName:MonoBehaviour{
 	}
 	public void setName(){
 		PlayerPrefs.SetString("name",nameField.GetComponent<Text>().text);
-		panel.SetActive(false);
+		GetComponent<StartTutorial>().check();
 	}
 }

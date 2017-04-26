@@ -28,6 +28,7 @@ public class SceneController:MonoBehaviour{
 	[SerializeField] GameObject background;
 	[SerializeField] GameObject nextLevel;
 	[SerializeField] GameObject scoreText;
+	[SerializeField] GameObject nextBackground;
 	[SerializeField] GameObject[] heartObject;
 	[SerializeField] Button exitButton;
 	[SerializeField] Sprite emptyHeart;
@@ -43,7 +44,6 @@ public class SceneController:MonoBehaviour{
 			if(PlayerPrefs.GetInt("weapon"+(i+1))==2)
 				weapon.GetComponent<SpriteRenderer>().sprite=weaponsImage[i];
 		}
-		//special
 		if(PlayerPrefs.GetInt("check1")==1){
 			playMusic();
 			GetComponent<AudioSource>().loop=true;
@@ -60,7 +60,7 @@ public class SceneController:MonoBehaviour{
 		while(true){
 			yield return new WaitForSeconds(Random.Range(1,maxSeconds));
 			RandomInstantiate();
-			if(monster_hit>=10 && !levelUp){
+			if(monster_hit>=20 && !levelUp){  //switch minimum
 				levelUp=true;
 				changeArea();
 				break;
@@ -199,7 +199,8 @@ public class SceneController:MonoBehaviour{
 	}
 	void changeArea(){
 		exitButton.interactable=false;
-		background.GetComponent<SpriteRenderer>().sprite=background_desert;
+		//background.GetComponent<SpriteRenderer>().sprite=background_desert;
+		nextBackground.SetActive(true);
 		StartCoroutine(Timer(5,100));
 		nextLevel.gameObject.SetActive(true);
 	}
