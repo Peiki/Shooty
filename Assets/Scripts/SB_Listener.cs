@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class SB_Listener:MonoBehaviour{
 	[SerializeField] GameObject weapon;
 	[SerializeField] GameObject bullet;
+	[SerializeField] GameObject ray;
 	public int distance;
 	public float fireRate;
 	float angle;
@@ -60,5 +61,14 @@ public class SB_Listener:MonoBehaviour{
 	}
 	public void setShoot(bool value){
 		shootEnabled=value;
+	}
+	public void startDisableShoot(){
+		StartCoroutine(disableShoot());
+	}
+	private IEnumerator disableShoot(){
+		while(ray.activeSelf){
+			shootEnabled=false;
+			yield return new WaitForSeconds(0.1f);
+		}
 	}
 }

@@ -39,6 +39,7 @@ public class SceneController:MonoBehaviour{
 	[SerializeField] Sprite[] countdown;
 	[SerializeField] AudioClip gameOverSound;
 	[SerializeField] AudioClip heartLossSound;
+	[SerializeField] AudioClip levelUpSound;
 	void Start(){
 		for(int i=0;i<3;i++){
 			if(PlayerPrefs.GetInt("weapon"+(i+1))==2)
@@ -61,6 +62,8 @@ public class SceneController:MonoBehaviour{
 			yield return new WaitForSeconds(Random.Range(1,maxSeconds));
 			RandomInstantiate();
 			if(monster_hit>=20 && !levelUp){  //switch minimum
+				stopMusic();
+				playLevelUpSound();
 				levelUp=true;
 				changeArea();
 				break;
@@ -197,9 +200,11 @@ public class SceneController:MonoBehaviour{
 	void playHeartLossSound(){
 		GetComponent<AudioSource>().PlayOneShot(heartLossSound);
 	}
+	void playLevelUpSound(){
+		GetComponent<AudioSource>().PlayOneShot(levelUpSound);
+	}
 	void changeArea(){
 		exitButton.interactable=false;
-		//background.GetComponent<SpriteRenderer>().sprite=background_desert;
 		nextBackground.SetActive(true);
 		StartCoroutine(Timer(5,100));
 		nextLevel.gameObject.SetActive(true);

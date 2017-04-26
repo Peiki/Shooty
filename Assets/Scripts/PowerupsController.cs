@@ -8,6 +8,7 @@ public class PowerupsController:MonoBehaviour{
 	[SerializeField] GameObject noMoneyPopup;
 	[SerializeField] AudioClip buySound;
 	[SerializeField] AudioClip noMoneySound;
+	[SerializeField] AudioClip maximumSound;
 	string[] playerPrefs=new string[]{"damage","speed","health"};
 	void Start(){
 		setPowerups();
@@ -35,6 +36,9 @@ public class PowerupsController:MonoBehaviour{
 			PlayerPrefs.SetInt(playerPrefs[i],PlayerPrefs.GetInt(playerPrefs[i])+1);
 			setPowerups();
 			if(PlayerPrefs.GetInt("check2")==1)
+				if(PlayerPrefs.GetInt(playerPrefs[i])==10)
+					GetComponent<AudioSource>().PlayOneShot(maximumSound);
+				else
 					GetComponent<AudioSource>().PlayOneShot(buySound);
 		}
 		else{

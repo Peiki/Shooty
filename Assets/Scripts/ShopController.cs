@@ -14,7 +14,7 @@ public class ShopController:MonoBehaviour{
 	[SerializeField] GameObject[] texts;
 	[SerializeField] GameObject[] imageBoxes;
 	[SerializeField] AudioClip buySound;
-	[SerializeField] AudioClip tap;
+	[SerializeField] AudioClip equipSound;
 	[SerializeField] AudioClip noMoneySound;
 	void Start(){
 		changePosition(0);
@@ -75,7 +75,7 @@ public class ShopController:MonoBehaviour{
 	public void buyObject(int i){
 		if(buyButtons[i-1].transform.GetChild(0).GetComponent<Text>().text=="OWNED"){
 			if(PlayerPrefs.GetInt("check2")==1)
-				GetComponent<AudioSource>().PlayOneShot(tap);
+				GetComponent<AudioSource>().PlayOneShot(equipSound);
 			string type="weapon";
 			if(position==1){
 				type="skill";
