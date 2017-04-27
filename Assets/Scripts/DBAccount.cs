@@ -106,7 +106,7 @@ public class DBAccount:MonoBehaviour{
     }
     public void startGetFollowed(){
         if(searchUserPopup.activeSelf)
-            searchUserPopup.GetComponent<DBSearch>().searchName();
+            searchUserPopup.GetComponent<DBSearch>().searchName("");
         else{
             clear();
             resetLoading();

@@ -51,14 +51,17 @@ public class DBSearch:MonoBehaviour{
             grid.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Button>().interactable=true;
     	}
     }
-	public void searchName(){
+	public void searchName(string name){
         searchButton.interactable=false;
         exitButton.interactable=false;
 		loading.gameObject.SetActive(true);
 		notFound.gameObject.SetActive(false);
 		emptyGrid();
 		StartCoroutine(Animation());
-		StartCoroutine(GetFollowed(inputField.GetComponent<Text>().text));
+        if(name=="")
+		  StartCoroutine(GetFollowed(inputField.GetComponent<Text>().text));
+        else
+            StartCoroutine(GetFollowed(name));
 	}
 	private IEnumerator Animation(){
         while(loading.activeSelf)

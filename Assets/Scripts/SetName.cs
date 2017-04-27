@@ -26,6 +26,7 @@ public class SetName:MonoBehaviour{
 			PlayerPrefs.SetInt("check3",1);
 			PlayerPrefs.SetInt("tut_Start",0);
 			PlayerPrefs.SetInt("tut_Shop",0);
+			PlayerPrefs.SetInt("tut_Account",0);
 			popupName.SetActive(true);
 		}
 		else{
