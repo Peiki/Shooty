@@ -31,6 +31,7 @@ public class SceneController:MonoBehaviour{
 	[SerializeField] GameObject scoreText;
 	[SerializeField] GameObject nextBackground;
 	[SerializeField] GameObject[] heartObject;
+	[SerializeField] GameObject soundSystem;
 	[SerializeField] Button exitButton;
 	[SerializeField] Sprite emptyHeart;
 	[SerializeField] Sprite fullHeart;
@@ -40,7 +41,9 @@ public class SceneController:MonoBehaviour{
 	[SerializeField] Sprite[] countdown;
 	[SerializeField] AudioClip gameOverSound;
 	[SerializeField] AudioClip heartLossSound;
+	[SerializeField] AudioClip heartGainSound;
 	[SerializeField] AudioClip levelUpSound;
+	[SerializeField] AudioClip spawnMonsterSound;
 	void Start(){
 		for(int i=0;i<3;i++){
 			if(PlayerPrefs.GetInt("weapon"+(i+1))==2)
@@ -63,6 +66,8 @@ public class SceneController:MonoBehaviour{
 		while(true){
 			yield return new WaitForSeconds(Random.Range(1,maxSeconds));
 			RandomInstantiate();
+			if(PlayerPrefs.GetInt("check2")==1)
+				playSpawnMonsterSound();
 			if(monster_hit>=20 && !levelUp){  //switch minimum
 				stopMusic();
 				if(PlayerPrefs.GetInt("check2")==1)
@@ -158,6 +163,8 @@ public class SceneController:MonoBehaviour{
 			StartCoroutine(Flash(heartObject[hearts]));
 			hearts++;
 		}
+		if(PlayerPrefs.GetInt("check2")==1)
+			playHeartGainSound();
 	}
 	public IEnumerator Flash(GameObject heartObject){
 		for(int i=0;i<10;i++){
@@ -206,13 +213,19 @@ public class SceneController:MonoBehaviour{
 		GetComponent<AudioSource>().Stop();
 	}
 	void playGameOverSound(){
-		GetComponent<AudioSource>().PlayOneShot(gameOverSound);
+		soundSystem.GetComponent<AudioSource>().PlayOneShot(gameOverSound);
 	}
 	void playHeartLossSound(){
-		GetComponent<AudioSource>().PlayOneShot(heartLossSound);
+		soundSystem.GetComponent<AudioSource>().PlayOneShot(heartLossSound);
+	}
+	void playHeartGainSound(){
+		soundSystem.GetComponent<AudioSource>().PlayOneShot(heartGainSound);
 	}
 	void playLevelUpSound(){
-		GetComponent<AudioSource>().PlayOneShot(levelUpSound);
+		soundSystem.GetComponent<AudioSource>().PlayOneShot(levelUpSound);
+	}
+	void playSpawnMonsterSound(){
+		soundSystem.GetComponent<AudioSource>().PlayOneShot(spawnMonsterSound);
 	}
 	void changeArea(){
 		exitButton.interactable=false;
