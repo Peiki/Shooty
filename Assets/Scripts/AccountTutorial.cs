@@ -9,9 +9,9 @@ public class AccountTutorial:MonoBehaviour{
 	[SerializeField] GameObject tapText;
 	[SerializeField] GameObject searchUserPopup;
 	[SerializeField] GameObject inputFieldPlaceholder;
+	[SerializeField] Button addButton;
 	int status=1;
 	void Start(){
-		//PlayerPrefs.SetInt("tut_Account",0);
 		if(PlayerPrefs.GetInt("tut_Account")==1){
 			panel.SetActive(false);
 			fsButton.SetActive(false);
@@ -60,30 +60,25 @@ public class AccountTutorial:MonoBehaviour{
 				searchUserPopup.GetComponent<DBSearch>().searchName("flat");
 				break;
 			case 9:
-				searchUserPopup.GetComponent<DBAddFriend>().SendFriend(0);
-				StartCoroutine(Wait());
+				panel.transform.GetChild(8).gameObject.SetActive(false);
+				panel.transform.GetChild(9).gameObject.SetActive(false);
+				panel.transform.GetChild(10).gameObject.SetActive(true);
+				GetComponent<DBGetUser>().openPopup();
+				setButton();
 				break;
 			case 10:
-				StartCoroutine(Wait2());
 				PlayerPrefs.SetInt("tut_Account",1);
 				SceneManager.LoadScene("Account",LoadSceneMode.Single);
 				break;
 		}
 		status++;
 	}
-	IEnumerator Wait(){
-		yield return new WaitForSeconds(0.5f);
-		panel.transform.GetChild(8).gameObject.SetActive(false);
-		panel.transform.GetChild(9).gameObject.SetActive(false);
-		panel.transform.GetChild(10).gameObject.SetActive(true);
-		panel.transform.GetChild(11).gameObject.SetActive(true);
-		GetComponent<DBGetUser>().openPopup();
-		GetComponent<DBGetUser>().setUsername(0);
-	}
-	IEnumerator Wait2(){
-		yield return new WaitForSeconds(0.5f);
-		GetComponent<DBGetUser>().setFriend(true);
-		GetComponent<DBGetUser>().setFriendName("flat");
-		GetComponent<DBGetUser>().addFriend();
+	void setButton(){
+		var colors=addButton.colors;
+		colors.normalColor=Color.red;
+        colors.highlightedColor=Color.red;
+        addButton.transform.GetChild(0).gameObject.GetComponent<Text>().text="Remove";
+        addButton.colors=colors;
+        addButton.interactable=true;
 	}
 }

@@ -29,7 +29,8 @@ public class EnemyBehaviour:MonoBehaviour{
         	Vector3 monsterPosition=transform.position;
         	monsterPosition.y=monsterPosition.y-1;
         	monsterPosition.z=-1;
-        	playSound();
+        	if(PlayerPrefs.GetInt("check2")==1)
+        		playSound();
         	if(attack)
         		Instantiate(fire,monsterPosition,Quaternion.Euler(monsterRotation)).GetComponent<FireBehaviour>().Activate(true);
         	if(!GetComponent<MonsterBehaviour>().getDead())

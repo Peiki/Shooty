@@ -59,7 +59,7 @@ public class DBSearch:MonoBehaviour{
 		emptyGrid();
 		StartCoroutine(Animation());
         if(name=="")
-		  StartCoroutine(GetFollowed(inputField.GetComponent<Text>().text));
+	       StartCoroutine(GetFollowed(inputField.GetComponent<Text>().text));
         else
             StartCoroutine(GetFollowed(name));
 	}

@@ -11,6 +11,7 @@ public class SceneController:MonoBehaviour{
 	bool status=false;
 	bool levelUp=false;
 	bool incremented=false;
+	bool musicStarted=false;
 	[SerializeField] GameObject monster;
 	[SerializeField] GameObject heavyMonster;
 	[SerializeField] GameObject fastMonster;
@@ -48,6 +49,7 @@ public class SceneController:MonoBehaviour{
 		if(PlayerPrefs.GetInt("check1")==1){
 			playMusic();
 			GetComponent<AudioSource>().loop=true;
+			musicStarted=true;
 		}
 		exitButton.interactable=false;
 		scoreText.GetComponent<Text>().text="SCORE:\n"+score;
@@ -63,7 +65,8 @@ public class SceneController:MonoBehaviour{
 			RandomInstantiate();
 			if(monster_hit>=20 && !levelUp){  //switch minimum
 				stopMusic();
-				playLevelUpSound();
+				if(PlayerPrefs.GetInt("check2")==1)
+					playLevelUpSound();
 				levelUp=true;
 				changeArea();
 				break;
@@ -133,11 +136,13 @@ public class SceneController:MonoBehaviour{
 		heartObject[hearts-1].GetComponent<Image>().sprite=emptyHeart;
 		StartCoroutine(Flash(heartObject[hearts-1]));
 		hearts--;
-		playHeartLossSound();
+		if(PlayerPrefs.GetInt("check2")==1)
+			playHeartLossSound();
 		if(hearts==0){
 			Time.timeScale=0;
 			stopMusic();
-			playGameOverSound();
+			if(PlayerPrefs.GetInt("check2")==1)
+				playGameOverSound();
 			exitButton.interactable=false;
 			if(score>PlayerPrefs.GetInt("highscore")){
 				PlayerPrefs.SetInt("highscore",score);
@@ -188,7 +193,13 @@ public class SceneController:MonoBehaviour{
 	public bool getStatus(){
 		return status;
 	}
-	void playMusic(){
+	public bool getMusicStarted(){
+		return musicStarted;
+	}
+	public void setMusicStarted(bool value){
+		musicStarted=value;
+	}
+	public void playMusic(){
 		GetComponent<AudioSource>().Play();
 	}
 	void stopMusic(){

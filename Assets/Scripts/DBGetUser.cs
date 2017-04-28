@@ -44,12 +44,6 @@ public class DBGetUser:MonoBehaviour{
 		else
 			StartCoroutine(AddFriend());
 	}
-    public void setFriend(bool value){
-        friend=value;
-    }
-    public void setFriendName(string name){
-        username=name;
-    }
 	private IEnumerator GetUser(string name){
 		string post_url=URL+"name="+name;
         WWW hs_get=new WWW(post_url);
