@@ -58,7 +58,6 @@ public class SceneController:MonoBehaviour{
 		scoreText.GetComponent<Text>().text="SCORE:\n"+score;
 		for(int i=0;i<7;i++)
 			Instantiate(fence,new Vector3(-5.04f+(1.7f*i),-5,-1),Quaternion.identity).tag="Fence";
-		StartCoroutine(Countdown(3));
 	}
 	private IEnumerator RandomSpawn(){
 		status=true;
@@ -83,6 +82,9 @@ public class SceneController:MonoBehaviour{
 			else if(!(monster_hit%10==0))
 				incremented=false;
 		}
+	}
+	public void startCountdown(){
+		StartCoroutine(Countdown(3));
 	}
 	private IEnumerator Countdown(int count){
 		if(count!=0){
