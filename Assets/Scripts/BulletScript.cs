@@ -8,6 +8,8 @@ public class BulletScript:MonoBehaviour{
 	public float damage;
 	Vector2 direction;
 	void Start(){
+		setDamage(PlayerPrefs.GetFloat("damage"));
+		Debug.Log(damage);
 		for(int i=0;i<3;i++)
 			if(PlayerPrefs.GetInt("weapon"+(i+1))==2)
 				GetComponent<SpriteRenderer>().sprite=bulletsImage[i];
@@ -35,7 +37,7 @@ public class BulletScript:MonoBehaviour{
 	 	Destroy(this);
 	 	Destroy(gameObject);
  	}
- 	public void setDamage(int damage){
+ 	public void setDamage(float damage){
  		this.damage=damage;
  	}
 	void playSound(){

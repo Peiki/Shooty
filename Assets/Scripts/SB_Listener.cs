@@ -16,6 +16,9 @@ public class SB_Listener:MonoBehaviour{
 	bool shootEnabled=true;
 	bool tripleShoot=false;
 	bool aimActive=false;
+	void Start(){
+		setFireRate(PlayerPrefs.GetFloat("speed"));
+	}
 	void Update(){
 		if(Input.touchCount==1 && Time.timeScale==1 && GetComponent<SceneController>().getStatus()){
 		//if(Input.GetButtonDown("Fire1") && Time.timeScale==1 && GetComponent<SceneController>().getStatus()){

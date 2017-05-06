@@ -107,7 +107,7 @@ public class ShopController:MonoBehaviour{
 					GetComponent<AudioSource>().PlayOneShot(noMoneySound);
 				noMoneyPopup.GetComponent<PopupScript>().Activate();
 			}
-				noMoneyPopup.GetComponent<PopupAnimation>().resetPosition();
+				noMoneyPopup.GetComponent<PopupAnimation>().resetScale();
 		}
 		
 	}
