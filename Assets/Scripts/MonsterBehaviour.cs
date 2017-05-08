@@ -10,6 +10,7 @@ public class MonsterBehaviour:MonoBehaviour{
 	public float life;
 	public int chance;
 	bool dead=false;
+	bool onFire=false;
 	void Start(){
 		tag="Monster";
 	}
@@ -30,8 +31,30 @@ public class MonsterBehaviour:MonoBehaviour{
 			playHitSound();
 		}
 	}
+	public void setOnFire(bool value){
+		onFire=value;
+		if(value){
+			StartCoroutine(FireTimer());
+			StartCoroutine(FireDamage());
+			GetComponent<SpriteRenderer>().color=Color.yellow;
+		}
+	}
+	public IEnumerator FireTimer(){
+		yield return new WaitForSeconds(10);
+		setOnFire(false);
+	}
+	public IEnumerator FireDamage(){
+		while(onFire){
+			yield return new WaitForSeconds(1);
+			getHit(1);
+		}
+	}
     public IEnumerator FlashColor(){
-    	GetComponent<SpriteRenderer>().color=Color.grey;
+    	Color naturalColor=GetComponent<SpriteRenderer>().color;
+    	if(naturalColor==Color.white)
+    		GetComponent<SpriteRenderer>().color=Color.grey;
+    	else
+    		GetComponent<SpriteRenderer>().color=Color.red;
 		yield return new WaitForSeconds(0.1f);
 		if(life<=0){
 			GetComponent<SpriteRenderer>().color=Color.black;
@@ -43,7 +66,7 @@ public class MonsterBehaviour:MonoBehaviour{
 			Destroy(gameObject);
 		}
 		else
-			GetComponent<SpriteRenderer>().color=Color.white;
+			GetComponent<SpriteRenderer>().color=naturalColor;
 	}
 	public float getSpeed(){
 		return speed;

@@ -11,7 +11,7 @@ public class PowerupsController:MonoBehaviour{
 	[SerializeField] AudioClip maximumSound;
 	string[] playerPrefs=new string[]{"damage","speed","health"};
 	string[] playerPrefs2=new string[]{"damageCount","speedCount","healthCount"};
-	float[] increment=new float[]{0.3f,0.1f,0f};
+	float[] increment=new float[]{0.3f,-0.05f,1f};
 	void Start(){
 		setPowerups();
 	}

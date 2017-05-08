@@ -5,9 +5,9 @@ using UnityEngine.UI;
 public class SceneController:MonoBehaviour{
 	int monster_hit=0;
 	int score=0;
-	int hearts=3;
 	int maxSeconds=6;
 	int range=21;
+	int hearts=3;
 	bool status=false;
 	bool levelUp=false;
 	bool incremented=false;
@@ -58,6 +58,12 @@ public class SceneController:MonoBehaviour{
 		scoreText.GetComponent<Text>().text="SCORE:\n"+score;
 		for(int i=0;i<7;i++)
 			Instantiate(fence,new Vector3(-5.04f+(1.7f*i),-5,-1),Quaternion.identity).tag="Fence";
+		heartObject[3].SetActive(false);
+		heartObject[4].SetActive(false);
+		while(hearts<PlayerPrefs.GetFloat("health")){
+			heartObject[hearts].SetActive(true);
+			hearts++;
+		}
 	}
 	private IEnumerator RandomSpawn(){
 		status=true;
@@ -160,7 +166,7 @@ public class SceneController:MonoBehaviour{
 		}
 	}
 	public void addHeart(){
-		if(hearts<3){
+		if(hearts<PlayerPrefs.GetFloat("health")){
 			heartObject[hearts].GetComponent<Image>().sprite=fullHeart;
 			StartCoroutine(Flash(heartObject[hearts]));
 			hearts++;
