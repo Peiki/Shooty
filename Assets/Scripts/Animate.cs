@@ -10,7 +10,6 @@ public class Animate:MonoBehaviour{
 	}
 	private IEnumerator StartAnimation(){
 		while(true){
-			Debug.Log(controller.GetComponent<ShopController>().getPosition());
 			if(controller.GetComponent<ShopController>().getPosition()==1)
 				for(int i=0;i<sprites.Length;i++){
 					GetComponent<Image>().sprite=sprites[i];

@@ -6,10 +6,11 @@ public class BulletScript:MonoBehaviour{
 	[SerializeField] Sprite[] bulletsImage;
 	public float bulletSpeed;
 	public float damage;
+	bool sourceBullet=true;
 	Vector2 direction;
 	void Start(){
-		setDamage(PlayerPrefs.GetFloat("damage"));
-		Debug.Log(damage);
+		if(sourceBullet)
+			setDamage(PlayerPrefs.GetFloat("damage"));
 		for(int i=0;i<3;i++)
 			if(PlayerPrefs.GetInt("weapon"+(i+1))==2)
 				GetComponent<SpriteRenderer>().sprite=bulletsImage[i];
@@ -19,6 +20,7 @@ public class BulletScript:MonoBehaviour{
 		transform.position=new Vector3(transform.position.x,transform.position.y,-1);
 	}
 	public void setDirection(Vector2 direction){
+		sourceBullet=false;
 		this.direction=direction;
 		if(PlayerPrefs.GetInt("check2")==1)
 			playSound();

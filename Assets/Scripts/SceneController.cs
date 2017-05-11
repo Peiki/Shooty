@@ -8,6 +8,7 @@ public class SceneController:MonoBehaviour{
 	int maxSeconds=6;
 	int range=21;
 	int hearts=3;
+	int monstersLeft=20;
 	bool status=false;
 	bool levelUp=false;
 	bool incremented=false;
@@ -44,7 +45,8 @@ public class SceneController:MonoBehaviour{
 	[SerializeField] AudioClip heartGainSound;
 	[SerializeField] AudioClip levelUpSound;
 	[SerializeField] AudioClip spawnMonsterSound;
-	void Start(){
+	void Start(){		
+		monsterKilled.GetComponent<Text>().text="= "+(20-monster_hit);
 		for(int i=0;i<3;i++){
 			if(PlayerPrefs.GetInt("weapon"+(i+1))==2)
 				weapon.GetComponent<SpriteRenderer>().sprite=weaponsImage[i];
@@ -139,7 +141,7 @@ public class SceneController:MonoBehaviour{
 	}
 	public void monsterHit(){
 		monster_hit++;
-		monsterKilled.GetComponent<Text>().text="= "+monster_hit;
+		monsterKilled.GetComponent<Text>().text="= "+(monstersLeft-monster_hit);
 	}
 	public void incrementScore(int amount){
 		score+=amount;
@@ -191,7 +193,7 @@ public class SceneController:MonoBehaviour{
 		if(position==2)
 			shoot.GetComponent<SB_Listener>().setFireRate(0.4f);
 		else if(position==3)
-			bullet.GetComponent<BulletScript>().setDamage(1);
+			bullet.GetComponent<BulletScript>().setDamage(PlayerPrefs.GetFloat("damage"));
 		yield return new WaitForSeconds(time);
 		if(position==100){
 			nextLevel.gameObject.SetActive(false);
@@ -236,6 +238,9 @@ public class SceneController:MonoBehaviour{
 		soundSystem.GetComponent<AudioSource>().PlayOneShot(spawnMonsterSound);
 	}
 	void changeArea(){
+		monster_hit=0;
+		monstersLeft=100;
+		monsterKilled.GetComponent<Text>().text="= "+(monstersLeft-monster_hit);
 		exitButton.interactable=false;
 		nextBackground.SetActive(true);
 		StartCoroutine(Timer(5,100));

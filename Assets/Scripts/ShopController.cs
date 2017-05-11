@@ -19,6 +19,14 @@ public class ShopController:MonoBehaviour{
 	void Start(){
 		changePosition(0);
 		setUpButtons();
+		/*PlayerPrefs.SetInt("powerup1",0);
+		PlayerPrefs.SetInt("powerup2",0);
+		PlayerPrefs.SetInt("powerup3",0);
+		PlayerPrefs.SetInt("powerup4",0);
+		PlayerPrefs.SetInt("powerup1Price",2000);
+		PlayerPrefs.SetInt("powerup2Price",750);
+		PlayerPrefs.SetInt("powerup3Price",1250);
+		PlayerPrefs.SetInt("powerup4Price",1250);*/
 	}
 	public void changePosition(int position){
 		this.position=position;
@@ -39,6 +47,7 @@ public class ShopController:MonoBehaviour{
 		return position;
 	}
 	void buy(Button button){
+		Debug.Log(button.transform.GetChild(0).GetComponent<Text>().text);
 		PlayerPrefs.SetInt("coins",PlayerPrefs.GetInt("coins")-int.Parse(button.transform.GetChild(0).GetComponent<Text>().text));
 		coinsNumber.GetComponent<CoinAnimation>().subtractCoins(int.Parse(button.transform.GetChild(0).GetComponent<Text>().text));
 		Update();
@@ -49,10 +58,17 @@ public class ShopController:MonoBehaviour{
 	public void setUpButtons(){
 		string type="weapon";
 		int j=1;
+		int h=0;
 		for(int i=0;i<buyButtons.Length;i++){
-			if(j==4){
+			if(h==1 && j==4){
+				type="powerup";
+				j=1;
+				h=2;
+			}
+			else if(h==0 && j==4){
 				type="skill";
 				j=1;
+				h=1;
 			}
 			if(PlayerPrefs.GetInt(type+j)==2){
 				buyButtons[i].interactable=false;
@@ -63,6 +79,8 @@ public class ShopController:MonoBehaviour{
 				buyButtons[i].interactable=true;
 				buyButtons[i].transform.GetChild(0).GetComponent<Text>().text="OWNED";
 				buyButtons[i].transform.GetChild(1).gameObject.SetActive(false);
+				if(type=="powerup")
+					buyButtons[i].interactable=false;
 			}
 			else{
 				buyButtons[i].interactable=true;
@@ -81,6 +99,10 @@ public class ShopController:MonoBehaviour{
 				type="skill";
 				i=i-3;
 			}
+			else if(position==2){
+				type="powerup";
+				i=i-6;
+			}
 			unEquip(type);
 			PlayerPrefs.SetInt(type+i,2);
 			setUpButtons();
@@ -94,12 +116,21 @@ public class ShopController:MonoBehaviour{
 					type="skill";
 					i=i-3;
 				}
+				else if(position==2){
+					type="powerup";
+					i=i-6;
+				}
+				Debug.Log("type="+type+"\nposition= "+position);
 				if(position==1)
 					buy(buyButtons[i+3-1]);
+				else if(position==2)
+					buy(buyButtons[i+6-1]);
 				else
 					buy(buyButtons[i-1]);
 				unEquip(type);
 				PlayerPrefs.SetInt(type+i,2);
+				if(type=="powerup")
+					PlayerPrefs.SetInt(type+i,1);
 				setUpButtons();
 			}
 			else{
