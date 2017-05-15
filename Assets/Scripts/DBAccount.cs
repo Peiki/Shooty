@@ -10,10 +10,11 @@ public class DBAccount:MonoBehaviour{
     [SerializeField] GameObject accountScreen;
     [SerializeField] GameObject searchUserPopup;
     [SerializeField] GameObject grid;
-    string URL_2="https://shooty.000webhostapp.com/displayYours.php?";
-    string URL_3="https://shooty.000webhostapp.com/displayRank.php?";
-    string URL_4="https://shooty.000webhostapp.com/countFollowers.php?";
-    string URL_5="https://shooty.000webhostapp.com/getFollowed.php?";
+    [SerializeField] GameObject noFriendsText;
+    string URL_2="http://shootygame.altervista.org/displayYours.php?";
+    string URL_3="http://shootygame.altervista.org/displayRank.php?";
+    string URL_4="http://shootygame.altervista.org/countFollowers.php?";
+    string URL_5="http://shootygame.altervista.org/getFollowed.php?";
     bool connection=false;
 	void Start(){
 		StartCoroutine(Animation());
@@ -54,6 +55,7 @@ public class DBAccount:MonoBehaviour{
         accountScreen.transform.GetChild(4).GetComponent<Text>().text="Followers: "+hs_get.text;
     }
     IEnumerator GetFollowed(string name){
+        bool friends=false;
         string post_url=URL_5+"name="+name;
         WWW hs_get=new WWW(post_url);
         yield return hs_get;
@@ -70,7 +72,10 @@ public class DBAccount:MonoBehaviour{
             grid.transform.GetChild(i-1).GetChild(0).GetComponent<Image>().sprite=userImage;
             grid.transform.GetChild(i-1).GetChild(0).gameObject.AddComponent<Outline>();
             j++;
+            friends=true;
         }
+        if(friends)
+            noFriendsText.SetActive(false);
     }
     private IEnumerator Animation(){
         while(loading.activeSelf)

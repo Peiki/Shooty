@@ -6,7 +6,7 @@ public class DBConnect:MonoBehaviour{
     [SerializeField] GameObject message;
     [SerializeField] GameObject nameField;
     private string secretKey="E5NsPUVa";
-    public string LINK="https://shooty.000webhostapp.com/";
+    public string URL="http://shootygame.altervista.org/";
     bool value;
     void Start(){
         Scene scene=SceneManager.GetActiveScene();
@@ -18,7 +18,7 @@ public class DBConnect:MonoBehaviour{
             value=false;
     }
     IEnumerator PostScores(string url,string name, int score){
-        string post_url=LINK+url+"name="+WWW.EscapeURL(name)+"&score="+score+"&secretKey="+WWW.EscapeURL(secretKey);
+        string post_url=URL+url+"name="+WWW.EscapeURL(name)+"&score="+score+"&secretKey="+WWW.EscapeURL(secretKey);
         WWW hs_post=new WWW(post_url);
         yield return hs_post;
         if(hs_post.error!=null)

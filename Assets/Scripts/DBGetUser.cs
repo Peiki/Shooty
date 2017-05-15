@@ -11,11 +11,11 @@ public class DBGetUser:MonoBehaviour{
     [SerializeField] Button addButton;
     [SerializeField] Sprite userImage;
     [SerializeField] Sprite[] sprites;
-    string URL="https://shooty.000webhostapp.com/displayYours.php?";
-   	string URL_2="https://shooty.000webhostapp.com/addFriend.php?";
-   	string URL_3="https://shooty.000webhostapp.com/displayRank.php?";
-   	string URL_4="https://shooty.000webhostapp.com/checkFollowed.php?";
-   	string URL_5="https://shooty.000webhostapp.com/removeFriend.php?";
+    string URL="http://shootygame.altervista.org/displayYours.php?";
+   	string URL_2="http://shootygame.altervista.org/addFriend.php?";
+   	string URL_3="http://shootygame.altervista.org/displayRank.php?";
+   	string URL_4="http://shootygame.altervista.org/checkFollowed.php?";
+   	string URL_5="http://shootygame.altervista.org/removeFriend.php?";
     string username;
     bool friend;
     bool connection=false;
@@ -85,12 +85,14 @@ public class DBGetUser:MonoBehaviour{
         WWW hs_get=new WWW(post_url);
         yield return hs_get;
         addButton.interactable=true;
-        if(int.Parse(hs_get.text)==0){
-        	changeButton(true);
+        if(username==PlayerPrefs.GetString("name")){
+            changeButton(true);
+        	addButton.interactable=false;
         }
-        else{
-        	changeButton(false);
-        }
+        else if(int.Parse(hs_get.text)==0)
+            changeButton(true);
+        else
+            changeButton(false);
 	}
 	void changeButton(bool value){
 		var colors=addButton.colors;

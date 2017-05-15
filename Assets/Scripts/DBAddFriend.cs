@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class DBAddFriend:MonoBehaviour{
 	[SerializeField] GameObject grid;
-	string URL="https://shooty.000webhostapp.com/addFriend.php?";
+	string URL="http://shootygame.altervista.org/addFriend.php?";
 	public void SendFriend(int position){
 		string followed=grid.transform.GetChild(position).GetChild(0).GetComponent<Text>().text;
 		StartCoroutine(AddFriend(position,PlayerPrefs.GetString("name"),followed));

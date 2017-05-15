@@ -7,9 +7,9 @@ public class DBGet:MonoBehaviour{
     [SerializeField] GameObject loading;
     [SerializeField] GameObject grid;
     [SerializeField] Sprite[] sprites;
-    string URL="https://shooty.000webhostapp.com/display.php";
-    string URL_2="https://shooty.000webhostapp.com/displayYours.php?";
-    string URL_3="https://shooty.000webhostapp.com/displayRank.php?";
+    string URL="http://shootygame.altervista.org/display.php";
+    string URL_2="http://shootygame.altervista.org/displayYours.php?";
+    string URL_3="http://shootygame.altervista.org/displayRank.php?";
     bool connection=false;
 	void Start(){
         StartCoroutine(Animation());
@@ -29,22 +29,24 @@ public class DBGet:MonoBehaviour{
         int j=1;
         int h=0;
         for(int i=0;i<30;i++){
-            if(i==0 || i-3*(j-1)==0){
-                grid.transform.GetChild(i).GetChild(0).GetComponent<Text>().text=j+".";
-                j++;
-            }
-            else{
-                grid.transform.GetChild(i).GetChild(0).GetComponent<Text>().text=substrings[h];
-                if(PlayerPrefs.GetString("name")==substrings[h]){
-                    grid.transform.GetChild(i-1).GetChild(0).GetComponent<Text>().color=Color.red;
-                    grid.transform.GetChild(i-1).GetChild(0).GetComponent<Outline>().effectColor=Color.red;
-                    grid.transform.GetChild(i).GetChild(0).GetComponent<Text>().color=Color.red;
-                    grid.transform.GetChild(i+1).GetChild(0).GetComponent<Text>().color=Color.red;
-                    grid.transform.GetChild(i+1).GetChild(0).GetComponent<Outline>().effectColor=Color.red;
+            if(h<substrings.Length-1){
+                if(i==0 || i-3*(j-1)==0){
+                    grid.transform.GetChild(i).GetChild(0).GetComponent<Text>().text=j+".";
+                    j++;
                 }
-                h++;
-            }
-        }   
+                else{ 
+                    grid.transform.GetChild(i).GetChild(0).GetComponent<Text>().text=substrings[h];
+                    if(PlayerPrefs.GetString("name")==substrings[h]){
+                        grid.transform.GetChild(i-1).GetChild(0).GetComponent<Text>().color=Color.red;
+                        grid.transform.GetChild(i-1).GetChild(0).GetComponent<Outline>().effectColor=Color.red;
+                        grid.transform.GetChild(i).GetChild(0).GetComponent<Text>().color=Color.red;
+                        grid.transform.GetChild(i+1).GetChild(0).GetComponent<Text>().color=Color.red;
+                        grid.transform.GetChild(i+1).GetChild(0).GetComponent<Outline>().effectColor=Color.red;
+                    }
+                    h++;
+                }
+            }   
+        }
     }
     IEnumerator GetYourScore(string name){
         string post_url=URL_2+"name="+name;
@@ -52,7 +54,7 @@ public class DBGet:MonoBehaviour{
         yield return hs_get;
         if(hs_get.error!=null)
             print("There was an error getting the high score: "+hs_get.error);
-        transform.GetChild(2).GetChild(2).GetComponent<Text>().text+=hs_get.text;
+        transform.GetChild(1).GetChild(2).GetComponent<Text>().text+=hs_get.text;
     }
     IEnumerator GetYourRank(int score){
         string post_url=URL_3+"score="+score;
@@ -60,7 +62,7 @@ public class DBGet:MonoBehaviour{
         yield return hs_get;
         if(hs_get.error!=null)
             print("There was an error getting the high score: "+hs_get.error);
-        transform.GetChild(2).GetChild(3).GetComponent<Text>().text+=hs_get.text;
+        transform.GetChild(1).GetChild(3).GetComponent<Text>().text+=hs_get.text;
     }
     private IEnumerator Animation(){
         while(loading.activeSelf)

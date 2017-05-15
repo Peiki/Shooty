@@ -11,8 +11,8 @@ public class DBSearch:MonoBehaviour{
 	[SerializeField] GameObject notFound;
     [SerializeField] Button searchButton;
     [SerializeField] Button exitButton;
-	string URL="https://shooty.000webhostapp.com/searchName.php?";
-	string URL2="https://shooty.000webhostapp.com/checkFollowed.php?";
+	string URL="http://shootygame.altervista.org/searchName.php?";
+	string URL2="http://shootygame.altervista.org/checkFollowed.php?";
 	IEnumerator GetFollowed(string name){
         string post_url=URL+"name="+name;
         WWW hs_get=new WWW(post_url);
