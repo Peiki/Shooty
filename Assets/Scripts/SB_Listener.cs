@@ -21,7 +21,6 @@ public class SB_Listener:MonoBehaviour{
 	}
 	void Update(){
 		if(Input.touchCount==1 && Time.timeScale==1 && GetComponent<SceneController>().getStatus()){
-		//if(Input.GetButtonDown("Fire1") && Time.timeScale==1 && GetComponent<SceneController>().getStatus()){
 			if(!ray.activeSelf){
 				if(!aimActive){
 					aim.GetComponent<Image>().sprite=aimImage;
@@ -30,7 +29,7 @@ public class SB_Listener:MonoBehaviour{
 				}
 				aim.transform.position=Input.GetTouch(0).position;
 			}
-		 	Vector3 direction=Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position); //Input.mousePosition
+		 	Vector3 direction=Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
 		 	if(controlPosition(-5.2f,5.1f,-5.9f,-8.2f,direction) && controlPosition(4.8f,5.9f,9.6f,8.6f,direction)){
 		 		weapon.transform.LookAt(direction,Vector3.forward);
 		 		Vector2 direction2=new Vector2(-(distance*Mathf.Sin(angle)),distance*Mathf.Cos(angle));

@@ -15,7 +15,6 @@ public class PopupAnimation:MonoBehaviour{
 		heigth=heigth+15;
 		if(width<=800){
 			GetComponent<RectTransform>().sizeDelta=new Vector2(width,heigth);
-			
 		}
 		else if(scene.name=="Game"){
 			transform.GetChild(3).gameObject.SetActive(true);

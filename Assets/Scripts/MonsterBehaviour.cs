@@ -32,11 +32,13 @@ public class MonsterBehaviour:MonoBehaviour{
 		}
 	}
 	public void setOnFire(bool value){
-		onFire=value;
-		if(value){
-			StartCoroutine(FireTimer());
-			StartCoroutine(FireDamage());
-			GetComponent<SpriteRenderer>().color=Color.yellow;
+		if(!onFire){
+				onFire=value;
+			if(value){
+				StartCoroutine(FireTimer());
+				StartCoroutine(FireDamage());
+				GetComponent<SpriteRenderer>().color=Color.yellow;
+			}
 		}
 	}
 	public IEnumerator FireTimer(){

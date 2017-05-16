@@ -51,13 +51,13 @@ public class AccountTutorial:MonoBehaviour{
 			case 7:
 				panel.transform.GetChild(6).gameObject.SetActive(false);
 				panel.transform.GetChild(7).gameObject.SetActive(true);
-				inputFieldPlaceholder.GetComponent<Text>().text="flat";
+				inputFieldPlaceholder.GetComponent<Text>().text="Peiki";
 				break;
 			case 8:
 				panel.transform.GetChild(7).gameObject.SetActive(false);
 				panel.transform.GetChild(8).gameObject.SetActive(true);
 				panel.transform.GetChild(9).gameObject.SetActive(true);
-				searchUserPopup.GetComponent<DBSearch>().searchName("flat");
+				searchUserPopup.GetComponent<DBSearch>().searchName("Peiki");
 				break;
 			case 9:
 				panel.transform.GetChild(8).gameObject.SetActive(false);
