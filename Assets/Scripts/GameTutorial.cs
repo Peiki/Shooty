@@ -67,6 +67,10 @@ public class GameTutorial:MonoBehaviour{
 				panel.transform.GetChild(9).gameObject.SetActive(true);
 				break;
 			case 9:
+				panel.transform.GetChild(9).gameObject.SetActive(false);
+				panel.transform.GetChild(10).gameObject.SetActive(true);
+				break;
+			case 10:
 				PlayerPrefs.SetInt("tut_Game",1);
 				SceneManager.LoadScene("Game",LoadSceneMode.Single);
 				break;

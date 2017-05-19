@@ -25,6 +25,9 @@ public class MenuListener:MonoBehaviour{
 	public void GoToAccount(){
 		SceneManager.LoadScene("Account",LoadSceneMode.Single);
 	}
+	public void GoToBugReport(){
+		SceneManager.LoadScene("BugReport",LoadSceneMode.Single);
+	}
 	public void ResetStats(){
 		PlayerPrefs.DeleteAll();
 	}
