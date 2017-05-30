@@ -9,7 +9,7 @@ public class DiagonalMovement:MonoBehaviour{
 		randomDirection();
 	}
 	void Update(){
-		if(!GetComponent<MonsterBehaviour>().getDead())
+		if(!GetComponent<MonsterBehaviour>().getDead() && !GetComponent<MonsterBehaviour>().getFreeze())
 			transform.Translate(direction*speed*Time.deltaTime);
 		if(transform.position.x<-5.10 || transform.position.x>5.10)
 			changeDirection();

@@ -57,10 +57,14 @@ public class StartTutorial:MonoBehaviour{
 				break;
 			case 11:
 				panel.transform.GetChild(6).gameObject.SetActive(false);
+				panel.transform.GetChild(7).gameObject.SetActive(true);
+				break;
+			case 12:
+				panel.transform.GetChild(7).gameObject.SetActive(false);
 				welcomeText.SetActive(true);
 				welcomeText.transform.GetChild(0).GetComponent<Text>().text="HAVE FUN!";
 				break;
-			case 12:
+			case 13:
 				panel.SetActive(false);
 				fsButton.SetActive(false);
 				PlayerPrefs.SetInt("tut_Start",1);

@@ -11,11 +11,12 @@ public class MonsterBehaviour:MonoBehaviour{
 	public int chance;
 	bool dead=false;
 	bool onFire=false;
+	bool freeze=false;
 	void Start(){
 		tag="Monster";
 	}
 	void Update(){
-		if(!dead && canMove)
+		if(!dead && canMove && !freeze)
 			transform.Translate(Vector3.down*speed*Time.deltaTime);
 	}
 	public void getHit(int damage){
@@ -33,7 +34,7 @@ public class MonsterBehaviour:MonoBehaviour{
 	}
 	public void setOnFire(bool value){
 		if(!onFire){
-				onFire=value;
+			onFire=value;
 			if(value){
 				StartCoroutine(FireTimer());
 				StartCoroutine(FireDamage());
@@ -41,9 +42,17 @@ public class MonsterBehaviour:MonoBehaviour{
 			}
 		}
 	}
+	public void setFreeze(){
+		if(!freeze){
+			freeze=true;
+			GetComponent<SpriteRenderer>().color=Color.cyan;
+			StartCoroutine(FreezeTimer());
+		}
+	}
 	public IEnumerator FireTimer(){
 		yield return new WaitForSeconds(10);
-		setOnFire(false);
+		onFire=false;
+		GetComponent<SpriteRenderer>().color=Color.white;
 	}
 	public IEnumerator FireDamage(){
 		while(onFire){
@@ -51,12 +60,19 @@ public class MonsterBehaviour:MonoBehaviour{
 			getHit(1);
 		}
 	}
+	public IEnumerator FreezeTimer(){
+		yield return new WaitForSeconds(5);
+		freeze=false;
+		GetComponent<SpriteRenderer>().color=Color.white;
+	}
     public IEnumerator FlashColor(){
     	Color naturalColor=GetComponent<SpriteRenderer>().color;
     	if(naturalColor==Color.white)
     		GetComponent<SpriteRenderer>().color=Color.grey;
-    	else
+    	else if(naturalColor==Color.yellow)
     		GetComponent<SpriteRenderer>().color=Color.red;
+    	else
+    		GetComponent<SpriteRenderer>().color=Color.blue;
 		yield return new WaitForSeconds(0.1f);
 		if(life<=0){
 			GetComponent<SpriteRenderer>().color=Color.black;
@@ -75,6 +91,9 @@ public class MonsterBehaviour:MonoBehaviour{
 	}
 	public bool getDead(){
 		return dead;
+	}
+	public bool getFreeze(){
+		return freeze;
 	}
 	public void setDead(){
 		dead=true;

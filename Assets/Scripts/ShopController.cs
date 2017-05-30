@@ -19,14 +19,6 @@ public class ShopController:MonoBehaviour{
 	void Start(){
 		changePosition(0);
 		setUpButtons();
-		/*PlayerPrefs.SetInt("powerup1",0);
-		PlayerPrefs.SetInt("powerup2",0);
-		PlayerPrefs.SetInt("powerup3",0);
-		PlayerPrefs.SetInt("powerup4",0);
-		PlayerPrefs.SetInt("powerup1Price",2000);
-		PlayerPrefs.SetInt("powerup2Price",750);
-		PlayerPrefs.SetInt("powerup3Price",1250);
-		PlayerPrefs.SetInt("powerup4Price",1250);*/
 	}
 	public void changePosition(int position){
 		this.position=position;

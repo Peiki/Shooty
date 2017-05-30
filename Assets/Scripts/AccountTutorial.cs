@@ -63,6 +63,7 @@ public class AccountTutorial:MonoBehaviour{
 				panel.transform.GetChild(8).gameObject.SetActive(false);
 				panel.transform.GetChild(9).gameObject.SetActive(false);
 				panel.transform.GetChild(10).gameObject.SetActive(true);
+				GetComponent<DBGetUser>().setUsername(0);
 				GetComponent<DBGetUser>().openPopup();
 				setButton();
 				break;

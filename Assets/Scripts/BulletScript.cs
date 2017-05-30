@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 public class BulletScript:MonoBehaviour{
 	[SerializeField] GameObject hitSprite;
+	[SerializeField] GameObject weapon;
+	[SerializeField] Sprite iceBow;
 	[SerializeField] Sprite[] bulletsImage;
 	public float bulletSpeed;
 	public float damage;
 	bool sourceBullet=true;
+	int freeze;
 	Vector2 direction;
 	void Start(){
 		if(sourceBullet)
@@ -30,6 +33,11 @@ public class BulletScript:MonoBehaviour{
 			Vector3 position=transform.position;
 			position.z=-2;
 			Instantiate(hitSprite,position,Quaternion.identity).GetComponent<HitBehaviour>().startCoroutine();
+			if(weapon.GetComponent<SpriteRenderer>().sprite==iceBow){
+				freeze=Random.Range(1,11);
+				if(freeze==10)
+					collider.GetComponent<MonsterBehaviour>().setFreeze();
+			}
 			collider.GetComponent<MonsterBehaviour>().getHit((int)damage);
 			Destroy(this);
 			Destroy(gameObject);

@@ -18,8 +18,10 @@ public class PowerupsController:MonoBehaviour{
 	void setPowerups(){
 		for(int i=0;i<powerupObject.Length;i++){
 			for(int j=0;j<powerupObject[i].transform.GetChild(2).childCount;j++){
-				if(j<PlayerPrefs.GetInt(playerPrefs2[i]))
+				if(j<PlayerPrefs.GetInt(playerPrefs2[i])){
 					powerupObject[i].transform.GetChild(2).GetChild(j).GetComponent<Image>().color=Color.red;
+					powerupObject[i].transform.GetChild(3).GetChild(1).GetComponent<Text>().text=PlayerPrefs.GetInt("powerup"+(i+1)+"Price").ToString();
+				}
 				else
 					powerupObject[i].transform.GetChild(2).GetChild(j).GetComponent<Image>().color=new Color(0.5f,0.1f,0.1f);
 				if(j+1==powerupObject[i].transform.GetChild(2).childCount && PlayerPrefs.GetInt(playerPrefs2[i])==j+1){
@@ -35,6 +37,7 @@ public class PowerupsController:MonoBehaviour{
 		if(int.Parse(powerupObject[i].transform.GetChild(3).GetChild(1).GetComponent<Text>().text)<=PlayerPrefs.GetInt("coins")){
 			PlayerPrefs.SetInt("coins",PlayerPrefs.GetInt("coins")-int.Parse(powerupObject[i].transform.GetChild(3).GetChild(1).GetComponent<Text>().text));
 			coinsNumber.GetComponent<CoinAnimation>().subtractCoins(int.Parse(powerupObject[i].transform.GetChild(3).GetChild(1).GetComponent<Text>().text));
+			PlayerPrefs.SetInt("powerup"+(i+1)+"Price",PlayerPrefs.GetInt("powerup"+(i+1)+"Price")+PlayerPrefs.GetInt("powerup"+(i+1)+"Price"));
 			PlayerPrefs.SetFloat(playerPrefs[i],PlayerPrefs.GetFloat(playerPrefs[i])+increment[i]);
 			PlayerPrefs.SetInt(playerPrefs2[i],PlayerPrefs.GetInt(playerPrefs2[i])+1);
 			Debug.Log(playerPrefs[i]+" "+PlayerPrefs.GetFloat(playerPrefs[i]));

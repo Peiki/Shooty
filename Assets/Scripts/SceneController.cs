@@ -75,14 +75,14 @@ public class SceneController:MonoBehaviour{
 			RandomInstantiate();
 			if(PlayerPrefs.GetInt("check2")==1)
 				playSpawnMonsterSound();
-			if(monster_hit>=20 && !levelUp){  //switch minimum
+			/*if(monster_hit>=20 && !levelUp){  //switch minimum
 				stopMusic();
 				if(PlayerPrefs.GetInt("check2")==1)
 					playLevelUpSound();
 				levelUp=true;
 				changeArea();
 				break;
-			}
+			}*/
 			if(monster_hit%10==0 && maxSeconds!=1 && monster_hit!=0 && !incremented){
 				incremented=true;
 				maxSeconds--;
