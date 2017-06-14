@@ -33,7 +33,7 @@ public class StartTutorial:MonoBehaviour{
 				break;
 			case 5:
 				tapText.SetActive(false);
-				panel.transform.GetChild(1).GetChild(0).GetComponent<Text>().text="You can gain money by playing or visiting the shop!";
+				panel.transform.GetChild(1).GetChild(0).GetComponent<Text>().text="You can gain money killing monsters!";
 				break;
 			case 6:
 				panel.transform.GetChild(1).gameObject.SetActive(false);
